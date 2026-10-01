@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 import com.r4in8ow.amigos.BuildConfig;
 import io.nekohasekai.sagernet.ktx.Logs;
 import kotlin.text.StringsKt;
-import com.r4in8ow.amigos.BuildConfig
 
 public class JavaUtil {
 
