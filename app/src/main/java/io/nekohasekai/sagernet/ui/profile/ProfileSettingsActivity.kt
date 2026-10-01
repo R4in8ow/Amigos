@@ -43,6 +43,7 @@ import io.nekohasekai.sagernet.utils.AmigosSecurity
 import io.nekohasekai.sagernet.widget.ListListener
 import kotlinx.parcelize.Parcelize
 import kotlin.properties.Delegates
+import com.r4in8ow.amigos.R
 
 @Suppress("UNCHECKED_CAST")
 abstract class ProfileSettingsActivity<T : AbstractBean>(

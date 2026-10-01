@@ -17,6 +17,7 @@ import io.nekohasekai.sagernet.ktx.*
 import io.nekohasekai.sagernet.ui.VpnRequestActivity
 import io.nekohasekai.sagernet.utils.Subnet
 import android.net.VpnService as BaseVpnService
+import com.r4in8ow.amigos.R
 
 class VpnService : BaseVpnService(),
     BaseService.Interface {

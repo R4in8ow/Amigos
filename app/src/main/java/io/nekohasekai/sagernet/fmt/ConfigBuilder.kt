@@ -38,6 +38,7 @@ import moe.matsuri.nb4a.utils.JavaUtil.gson
 import moe.matsuri.nb4a.utils.Util
 import moe.matsuri.nb4a.utils.listByLineOrComma
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import com.r4in8ow.amigos.R
 
 const val TAG_MIXED = "mixed-in"
 

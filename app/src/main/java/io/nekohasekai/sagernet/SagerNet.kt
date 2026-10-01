@@ -34,6 +34,8 @@ import moe.matsuri.nb4a.utils.JavaUtil
 import moe.matsuri.nb4a.utils.cleanWebview
 import java.io.File
 import androidx.work.Configuration as WorkConfiguration
+import com.r4in8ow.amigos.R
+import com.r4in8ow.amigos.BuildConfig
 
 class SagerNet : Application(),
     WorkConfiguration.Provider {

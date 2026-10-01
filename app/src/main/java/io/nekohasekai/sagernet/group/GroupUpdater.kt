@@ -19,6 +19,7 @@ import java.net.Inet4Address
 import java.net.InetAddress
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
+import com.r4in8ow.amigos.R
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 abstract class GroupUpdater {

@@ -33,6 +33,7 @@ import io.nekohasekai.sagernet.aidl.ISagerNetService
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.bg.SagerConnection
 import io.nekohasekai.sagernet.database.DataStore
+import com.r4in8ow.amigos.R
 
 @Suppress("DEPRECATION")
 class QuickToggleShortcut : Activity(), SagerConnection.Callback {
