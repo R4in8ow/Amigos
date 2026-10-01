@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 
 open class ToolbarFragment : Fragment {
 

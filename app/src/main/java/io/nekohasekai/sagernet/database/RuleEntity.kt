@@ -2,7 +2,7 @@ package io.nekohasekai.sagernet.database
 
 import android.os.Parcelable
 import androidx.room.*
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.ktx.app
 import kotlinx.parcelize.Parcelize
 

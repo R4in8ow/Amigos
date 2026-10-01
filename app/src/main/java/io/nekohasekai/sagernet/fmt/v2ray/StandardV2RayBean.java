@@ -61,6 +61,11 @@ public abstract class StandardV2RayBean extends AbstractBean {
     public Integer muxType;
     public Integer muxConcurrency;
 
+    // --------------------------------------- Amigos fragment
+
+    // "inherit" = follow global Auto Fragment setting, "on" = force on, "off" = force off
+    public String enableFragment;
+
 
     // --------------------------------------- //
 
@@ -108,11 +113,14 @@ public abstract class StandardV2RayBean extends AbstractBean {
         if (muxPadding == null) muxPadding = false;
         if (muxType == null) muxType = 0;
         if (muxConcurrency == null) muxConcurrency = 1;
+
+        // Amigos: default to following the global Auto Fragment setting (which defaults ON)
+        if (JavaUtil.isNullOrBlank(enableFragment)) enableFragment = "inherit";
     }
 
     @Override
     public void serialize(ByteBufferOutput output) {
-        output.writeInt(4);
+        output.writeInt(5);
         super.serialize(output);
         output.writeString(uuid);
         output.writeString(encryption);
@@ -165,6 +173,8 @@ public abstract class StandardV2RayBean extends AbstractBean {
         output.writeBoolean(muxPadding);
         output.writeInt(muxType);
         output.writeInt(muxConcurrency);
+
+        output.writeString(enableFragment);
     }
 
     @Override
@@ -255,6 +265,10 @@ public abstract class StandardV2RayBean extends AbstractBean {
             muxPadding = input.readBoolean();
             muxType = input.readInt();
             muxConcurrency = input.readInt();
+        }
+
+        if (version >= 5) {
+            enableFragment = input.readString();
         }
     }
 

@@ -2,10 +2,11 @@ package io.nekohasekai.sagernet.ui.profile
 
 import android.os.Bundle
 import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import io.nekohasekai.sagernet.Key
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.preference.EditTextPreferenceModifiers
 import io.nekohasekai.sagernet.fmt.http.HttpBean
 import io.nekohasekai.sagernet.fmt.trojan.TrojanBean
@@ -44,6 +45,9 @@ abstract class StandardV2RaySettingsActivity : ProfileSettingsActivity<StandardV
     private val realityPubKey = pbm.add(PreferenceBinding(Type.Text, "realityPubKey"))
     private val realityShortId = pbm.add(PreferenceBinding(Type.Text, "realityShortId"))
 
+    // Amigos: per-profile fragment override ("inherit" = follow global Auto Fragment)
+    private val enableFragment = pbm.add(PreferenceBinding(Type.Text, "enableFragment"))
+
     private val enableECH = pbm.add(PreferenceBinding(Type.Bool, "enableECH"))
     private val echConfig = pbm.add(PreferenceBinding(Type.Text, "echConfig"))
 
@@ -70,6 +74,8 @@ abstract class StandardV2RaySettingsActivity : ProfileSettingsActivity<StandardV
     private lateinit var tlsCamouflageCategory: PreferenceCategory
     private lateinit var wsCategory: PreferenceCategory
     private lateinit var echCategory: PreferenceCategory
+    private lateinit var connectionHelpCategory: PreferenceCategory
+    private lateinit var portHint: Preference
 
     override fun PreferenceFragmentCompat.createPreferences(
         savedInstanceState: Bundle?,
@@ -81,6 +87,8 @@ abstract class StandardV2RaySettingsActivity : ProfileSettingsActivity<StandardV
         tlsCamouflageCategory = findPreference(Key.SERVER_TLS_CAMOUFLAGE_CATEGORY)!!
         echCategory = findPreference(Key.SERVER_ECH_CATEORY)!!
         wsCategory = findPreference(Key.SERVER_WS_CATEGORY)!!
+        connectionHelpCategory = findPreference(Key.SERVER_CONNECTION_HELP_CATEGORY)!!
+        portHint = findPreference("portHint")!!
 
 
         // vmess/vless/http/trojan
@@ -191,6 +199,9 @@ abstract class StandardV2RaySettingsActivity : ProfileSettingsActivity<StandardV
         securityCategory.isVisible = isTLS
         tlsCamouflageCategory.isVisible = isTLS
         echCategory.isVisible = isTLS
+        // Amigos: fragment + connection hints only make sense for TLS (incl. Reality) profiles
+        portHint.isVisible = isTLS
+        connectionHelpCategory.isVisible = isTLS
     }
 
 }

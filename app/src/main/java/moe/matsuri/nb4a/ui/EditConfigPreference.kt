@@ -5,7 +5,7 @@ import android.content.Intent
 import android.util.AttributeSet
 import androidx.preference.Preference
 import io.nekohasekai.sagernet.Key
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.ktx.Logs
 import io.nekohasekai.sagernet.ktx.app

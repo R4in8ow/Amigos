@@ -29,8 +29,8 @@ import androidx.preference.Preference
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.processphoenix.ProcessPhoenix
-import io.nekohasekai.sagernet.BuildConfig
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.BuildConfig
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.aidl.ISagerNetService
 import io.nekohasekai.sagernet.bg.BaseService

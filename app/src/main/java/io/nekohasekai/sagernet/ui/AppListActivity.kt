@@ -24,12 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import io.nekohasekai.sagernet.BuildConfig
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.BuildConfig
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.database.DataStore
-import io.nekohasekai.sagernet.databinding.LayoutAppListBinding
-import io.nekohasekai.sagernet.databinding.LayoutAppsItemBinding
+import com.r4in8ow.amigos.databinding.LayoutAppListBinding
+import com.r4in8ow.amigos.databinding.LayoutAppsItemBinding
 import io.nekohasekai.sagernet.ktx.crossFadeFrom
 import io.nekohasekai.sagernet.ktx.onMainDispatcher
 import io.nekohasekai.sagernet.ktx.runOnDefaultDispatcher

@@ -1,7 +1,7 @@
 package io.nekohasekai.sagernet.widget
 
 import com.google.android.material.snackbar.Snackbar
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.ui.ThemedActivity
 
 /**

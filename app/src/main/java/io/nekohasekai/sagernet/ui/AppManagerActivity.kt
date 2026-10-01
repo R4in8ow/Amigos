@@ -27,12 +27,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import io.nekohasekai.sagernet.BuildConfig
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.BuildConfig
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.database.DataStore
-import io.nekohasekai.sagernet.databinding.LayoutAppsBinding
-import io.nekohasekai.sagernet.databinding.LayoutAppsItemBinding
+import com.r4in8ow.amigos.databinding.LayoutAppsBinding
+import com.r4in8ow.amigos.databinding.LayoutAppsItemBinding
 import io.nekohasekai.sagernet.ktx.Logs
 import io.nekohasekai.sagernet.ktx.app
 import io.nekohasekai.sagernet.ktx.crossFadeFrom

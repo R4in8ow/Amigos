@@ -1,8 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name" translatable="false">NekoBox</string>
-    <string name="app_name_long" translatable="false">NekoBox for Android</string>
-    <string name="app_desc">The universal proxy toolchain for Android, written in Kotlin.</string>
+    <string name="app_name" translatable="false">Amigos</string>
+    <string name="app_name_long" translatable="false">Amigos for Android</string>
+    <string name="developed_by" translatable="false">Developed by R4in8ow</string>
+    <string name="amigos_login_subtitle">Sign in to continue</string>
+    <string name="amigos_login_username_hint">Username</string>
+    <string name="amigos_login_continue">Continue</string>
+    <string name="amigos_login_error_empty">Please enter your username</string>
+    <string name="amigos_login_error_failed">Sign-in failed. Check your username and connection, then try again.</string>
+    <string name="amigos_login_working">Setting things up…</string>
+    <string name="amigos_premium_group">Premium servers</string>
+    <string name="amigos_account">Account</string>
+    <string name="amigos_logout">Sign out</string>
+    <string name="amigos_logout_summary_user">Signed in as %1$s</string>
+    <string name="amigos_logout_confirm_title">Sign out?</string>
+    <string name="amigos_logout_confirm_message">This removes your Premium servers and signs you out. You can sign in again any time.</string>
+    <string name="amigos_share_disabled">Sharing is disabled for premium servers</string>
+    <string name="free_servers">Free servers</string>
+    <string name="free_servers_continue">Continue with free servers</string>
+    <string name="free_servers_disclaimer_title">A note about free servers</string>
+    <string name="free_servers_disclaimer_message">Free servers are run by third parties, not by Amigos. Connections through them are not private — please avoid signing in to sensitive accounts while connected.</string>
+    <string name="free_servers_disclaimer_ack">I understand</string>
+    <string name="free_servers_updated">Updated: %1$s</string>
+    <string name="free_servers_never_updated">Never updated</string>
+    <string name="free_servers_refresh_failed">Couldn\'t refresh — showing saved list</string>
+    <string name="free_servers_load_failed">Couldn\'t load servers. Check your connection and try again.</string>
+    <string name="free_servers_retry">Retry</string>
+    <string name="free_servers_empty">No servers right now</string>
+    <string name="free_servers_refresh">Refresh</string>
+    <string name="app_desc">Secure connectivity, made simple.</string>
     <string name="project">Project</string>
     <string name="github">Source code</string>
     <string name="telegram">Telegram update channel</string>
@@ -21,11 +47,11 @@
     <string name="quick_disable">Disable</string>
     <string name="tile_title">Switcher</string>
     <string name="menu_traffic">Traffic</string>
-    <string name="menu_dashboard">sing-box Dashboard</string>
-    <!-- externel -->
+    <string name="menu_dashboard">Dashboard</string>
+    
     <string name="action_copy">Copy</string>
     <string name="action_open">Open</string>
-    <!-- group -->
+    
     <string name="group_name">Group name</string>
     <string name="group_update">Update</string>
     <string name="group_subscription_link">Subscription Link</string>
@@ -48,7 +74,7 @@
     <string name="group_changed">Updated: \n%s</string>
     <string name="group_deleted">Deleted: \n%s</string>
     <string name="group_duplicate">Duplicate: \n%s</string>
-    <!-- misc -->
+    
     <string name="service_mode">Service Mode</string>
     <string name="service_mode_proxy">Proxy only</string>
     <string name="service_mode_vpn" translatable="false">VPN</string>
@@ -77,7 +103,7 @@
     <string name="allow_insecure_sum">Disable certificate checking. When enabled, this configuration
         is as secure as plaintext</string>
     <string name="traffic" translatable="false">%1$s↑ %2$s↓</string>
-    <string name="speed_detail">Proxy： %1$s↑ %2$s↓\nDirect： %3$s↑ %4$s↓</string>
+    <string name="speed_detail">Connection： %1$s↑ %2$s↓\nDirect： %3$s↑ %4$s↓</string>
     <string name="speed">%s/s</string>
     <string name="connection_test_testing">Testing…</string>
     <string name="connection_test_available">Success: HTTPS handshake took %dms</string>
@@ -99,7 +125,7 @@
     <string name="require_transproxy">Enable Transproxy Inbound</string>
     <string name="transproxy_mode">Transproxy Mode</string>
     <string name="connection_test_url">Connection Test URL</string>
-    <!-- proxy category -->
+    
     <string name="profile_name">Profile Name</string>
     <string name="server_address">Server</string>
     <string name="server_port">Remote Port</string>
@@ -132,12 +158,12 @@
     <string name="extra_headers">Extra Headers</string>
     <string name="config_type">Config Type</string>
     <string name="edit_config">Edit Config</string>
-    <!-- feature category -->
+    
     <string name="ipv6">IPv6 Route</string>
     <string name="prefer">Prefer</string>
     <string name="only">Only</string>
     <string name="metered">Metered Hint</string>
-    <string name="metered_summary">Hint system to treat VPN as metered</string>
+    <string name="metered_summary">Hint system to treat the connection as metered</string>
     <string name="menu_route">Route</string>
     <string name="route_add">Create Route</string>
     <string name="delete_route_prompt">Are you sure you want to remove this route?</string>
@@ -172,8 +198,8 @@
         productive. If the server does not support it, you will not be able to access the Internet.</string>
     <string name="mux_concurrency">Mux Concurrent Connections</string>
     <string name="tcp_keep_alive_interval">TCP keep active packet delivery interval</string>
-    <string name="proxied_apps">Apps VPN mode</string>
-    <string name="proxied_apps_summary">Configure VPN mode for selected apps</string>
+    <string name="proxied_apps">Apps</string>
+    <string name="proxied_apps_summary">Choose which apps use the connection</string>
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="search_apps">Search…</string>
@@ -187,23 +213,23 @@
     <string name="direct_boot_aware">Allow Toggling in Lock Screen</string>
     <string name="direct_boot_aware_summary">Your selected profile information will be less
         protected</string>
-    <!-- notification category -->
-    <string name="service_vpn">VPN Service</string>
-    <string name="service_proxy">Proxy Service</string>
-    <string name="forward_success">Proxy started.</string>
+    
+    <string name="service_vpn">Amigos Service</string>
+    <string name="service_proxy">Amigos Service</string>
+    <string name="forward_success">Service started.</string>
     <string name="invalid_server">Invalid server name</string>
     <string name="service_failed">Failed: </string>
     <string name="stop">Stop</string>
     <string name="stopping">Shutting down…</string>
     <string name="vpn_error">%s</string>
-    <string name="vpn_permission_denied">Permission denied to create a VPN service</string>
-    <string name="reboot_required">Failed to start VPN service. You might need to reboot your
+    <string name="vpn_permission_denied">Permission denied to create the connection service</string>
+    <string name="reboot_required">Failed to start the service. You might need to reboot your
         device.</string>
-    <!-- alert category -->
+    
     <string name="profile_empty">Please select a profile</string>
     <string name="connect">Connect</string>
     <string name="clipboard_empty">Clipboard is empty</string>
-    <!-- menu category -->
+    
     <string name="settings">Settings</string>
     <string name="edit">Edit</string>
     <string name="share">Share</string>
@@ -248,8 +274,8 @@
     <string name="action_import_err">Failed to import.</string>
     <string name="file_manager_missing">Your device lacks an Android standard file selector, please
         install one, such as Material Files.</string>
-    <!-- share -->
-    <!-- profile -->
+    
+    
     <string name="profile_config">Profile config</string>
     <string name="delete">Remove</string>
     <string name="delete_confirm_prompt">Are you sure you want to remove this profile?</string>
@@ -267,12 +293,12 @@
     <string name="undo">Undo</string>
     <string name="insecure">Insecure</string>
     <string name="deprecated">Deprecated</string>
-    <!-- tasker -->
-    <!-- status -->
+    
+    
     <string name="connecting">Connecting…</string>
     <string name="vpn_connected">Connected, tap to check connection</string>
     <string name="not_connected">Not connected</string>
-    <!-- subscriptions -->
+    
     <string name="subscriptions">Subscriptions</string>
     <string name="cleartext_http_warning">Cleartext HTTP traffic is insecure</string>
     <string name="error_title">Error</string>
@@ -285,7 +311,7 @@
     <string name="donate_info">I love money</string>
     <string name="ignore_battery_optimizations">Ignore battery optimizations</string>
     <string name="ignore_battery_optimizations_sum">Remove some restrictions</string>
-    <!-- plugin -->
+    
     <string name="plugin">Plugin</string>
     <string name="plugin_configure">Configure…</string>
     <string name="plugin_disabled">Disabled</string>
@@ -369,12 +395,11 @@
     <string name="download">Download</string>
     <string name="ooc_subscription_token" translatable="false">OOCv1 API Token</string>
     <string name="ooc_subscription_token_invalid">Invalid OOCv1 Token</string>
-    <string name="update_subscription_warning">Proxy is not connected, are you sure you want to
-        continue updating?</string>
+    <string name="update_subscription_warning">Not connected, are you sure you want to continue updating?</string>
     <string name="ooc_warning">Warning</string>
     <string name="ooc_missing_protocol">The subscription requires support for protocol %s, but it
         cannot be found. Unsupported profiles will be ignored.</string>
-    <string name="service_subscription">Subscription Update Service</string>
+    <string name="service_subscription">Amigos Updates</string>
     <string name="subscription_update">Subscription Update</string>
     <string name="subscription_update_message">Updating %s …</string>
     <string name="group_filter">Filter</string>
@@ -432,7 +457,7 @@
     <string name="app_no_launcher">The app has no interface.</string>
     <string name="route_for">Rule for %s</string>
 
-    <string name="route_need_vpn">Routing rule %s relies on the VPN to be in effect, so it is
+    <string name="route_need_vpn">Routing rule %s relies on the connection to be in effect, so it is
         ignored.</string>
 
     <string name="profile_traffic_statistics">Profile Traffic Statistics</string>
@@ -579,4 +604,19 @@
     <string name="minimize">Minimize</string>
     <string name="app_list_permission_denied">Unable to read installed apps.\nThis is usually because the system has restricted app read permissions.\nPlease grant permissions in the system settings.</string>
     <string name="open_app_settings">Open System Settings</string>
+
+    
+    <string name="auto_fragment">Auto Fragment</string>
+    <string name="auto_fragment_sum">Automatically enable TLS fragment on all profiles to bypass DPI censorship</string>
+    <string name="apply_fragment_to_all">Apply to all existing profiles</string>
+    <string name="apply_fragment_to_all_sum">Turn on fragment for every saved profile at once</string>
+    <string name="fragment_applied_toast">Fragment enabled on %1$d profiles</string>
+    <string name="enable_fragment_tls">Enable Fragment (TLS)</string>
+    <string name="enable_fragment_tls_sum">Helps bypass DPI censorship. Keep this ON.</string>
+    <string name="fragment_mode_inherit">Follow global setting</string>
+    <string name="fragment_mode_on">On</string>
+    <string name="fragment_mode_off">Off</string>
+    <string name="profile_port_hint">If connection is blocked, try changing the port to 443</string>
+    <string name="connection_help">Connection help</string>
+    <string name="connection_help_sum">Connection dropping or unstable? Make sure "Enable Fragment" is ON, and try switching the port to 443.</string>
 </resources>

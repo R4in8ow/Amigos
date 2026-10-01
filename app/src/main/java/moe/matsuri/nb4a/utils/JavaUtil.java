@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.nekohasekai.sagernet.BuildConfig;
+import com.r4in8ow.amigos.BuildConfig;
 import io.nekohasekai.sagernet.ktx.Logs;
 import kotlin.text.StringsKt;
 

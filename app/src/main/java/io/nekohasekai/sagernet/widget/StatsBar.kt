@@ -11,7 +11,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import com.google.android.material.bottomappbar.BottomAppBar
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.ktx.*

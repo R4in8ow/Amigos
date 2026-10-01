@@ -6,15 +6,19 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.nekohasekai.sagernet.Key
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.database.DataStore
+import io.nekohasekai.sagernet.database.GroupManager
+import io.nekohasekai.sagernet.database.SagerDatabase
 import io.nekohasekai.sagernet.database.preference.EditTextPreferenceModifiers
 import io.nekohasekai.sagernet.ktx.*
+import io.nekohasekai.sagernet.utils.AmigosSecurity
 import io.nekohasekai.sagernet.utils.Theme
 import moe.matsuri.nb4a.ui.*
 
@@ -168,6 +172,73 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         tunImplementation.onPreferenceChangeListener = reloadListener
         acquireWakeLock.onPreferenceChangeListener = reloadListener
         globalCustomConfig.onPreferenceChangeListener = reloadListener
+
+        // Amigos: one-tap action to turn fragment ON for every saved profile at once
+        findPreference<Preference>("applyFragmentToAll")!!.setOnPreferenceClickListener {
+            runOnDefaultDispatcher {
+                val toUpdate = ArrayList<io.nekohasekai.sagernet.database.ProxyEntity>()
+                for (entity in io.nekohasekai.sagernet.database.SagerDatabase.proxyDao.getAll()) {
+                    val bean = entity.requireBean()
+                    if (bean is io.nekohasekai.sagernet.fmt.v2ray.StandardV2RayBean
+                        && bean.enableFragment != "on"
+                    ) {
+                        bean.enableFragment = "on"
+                        entity.putBean(bean)
+                        toUpdate.add(entity)
+                    }
+                }
+                if (toUpdate.isNotEmpty()) {
+                    io.nekohasekai.sagernet.database.SagerDatabase.proxyDao.updateProxy(toUpdate)
+                }
+                val count = toUpdate.size
+                runOnMainDispatcher {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.fragment_applied_toast, count),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    needReload()
+                }
+            }
+            true
+        }
+
+        findPreference<Preference>("amigosLogout")!!.apply {
+            val username = DataStore.amigosUsername
+            isVisible = username.isNotBlank()
+            if (username.isNotBlank()) {
+                summary = getString(R.string.amigos_logout_summary_user, username)
+            }
+            setOnPreferenceClickListener {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.amigos_logout_confirm_title)
+                    .setMessage(R.string.amigos_logout_confirm_message)
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        runOnDefaultDispatcher {
+                            for (group in SagerDatabase.groupDao.subscriptions()) {
+                                if (AmigosSecurity.isPremiumGroup(group)) {
+                                    GroupManager.deleteGroup(group.id)
+                                }
+                            }
+                            DataStore.amigosUsername = ""
+                            DataStore.amigosOnboarded = false
+                            onMainDispatcher {
+                                startActivity(
+                                    Intent(
+                                        requireContext(),
+                                        AmigosLoginActivity::class.java
+                                    ).apply {
+                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                    })
+                                requireActivity().finish()
+                            }
+                        }
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+                true
+            }
+        }
     }
 
     override fun onResume() {

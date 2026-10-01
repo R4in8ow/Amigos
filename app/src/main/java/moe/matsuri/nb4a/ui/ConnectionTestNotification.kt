@@ -2,7 +2,7 @@ package moe.matsuri.nb4a.ui
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.ktx.Logs
 

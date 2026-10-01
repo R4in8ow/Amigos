@@ -9,10 +9,10 @@ import android.webkit.*
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import io.nekohasekai.sagernet.BuildConfig
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.BuildConfig
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
-import io.nekohasekai.sagernet.databinding.LayoutWebviewBinding
+import com.r4in8ow.amigos.databinding.LayoutWebviewBinding
 import moe.matsuri.nb4a.utils.WebViewUtil
 
 // Fragment必须有一个无参public的构造函数，否则在数据恢复的时候，会报crash

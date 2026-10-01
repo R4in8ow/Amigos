@@ -20,9 +20,9 @@ import com.danielstone.materialaboutlibrary.MaterialAboutFragment
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
-import io.nekohasekai.sagernet.BuildConfig
-import io.nekohasekai.sagernet.R
-import io.nekohasekai.sagernet.databinding.LayoutAboutBinding
+import com.r4in8ow.amigos.BuildConfig
+import com.r4in8ow.amigos.R
+import com.r4in8ow.amigos.databinding.LayoutAboutBinding
 import io.nekohasekai.sagernet.ktx.*
 import io.nekohasekai.sagernet.plugin.PluginManager.loadString
 import io.nekohasekai.sagernet.utils.PackageCache

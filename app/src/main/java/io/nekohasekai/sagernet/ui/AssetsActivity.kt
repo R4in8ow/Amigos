@@ -11,10 +11,10 @@ import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
-import io.nekohasekai.sagernet.databinding.LayoutAssetItemBinding
-import io.nekohasekai.sagernet.databinding.LayoutAssetsBinding
+import com.r4in8ow.amigos.databinding.LayoutAssetItemBinding
+import com.r4in8ow.amigos.databinding.LayoutAssetsBinding
 import io.nekohasekai.sagernet.ktx.*
 import io.nekohasekai.sagernet.widget.UndoSnackbarManager
 import libcore.Libcore

@@ -2,7 +2,7 @@ package io.nekohasekai.sagernet.ui
 
 import android.content.Intent
 import android.os.Bundle
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.ProxyEntity
 
 class ProfileSelectActivity : ThemedActivity(R.layout.layout_empty),

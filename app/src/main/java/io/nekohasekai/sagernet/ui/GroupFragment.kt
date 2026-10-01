@@ -16,13 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.nekohasekai.sagernet.GroupType
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.database.*
-import io.nekohasekai.sagernet.databinding.LayoutGroupItemBinding
+import com.r4in8ow.amigos.databinding.LayoutGroupItemBinding
 import io.nekohasekai.sagernet.fmt.toUniversalLink
 import io.nekohasekai.sagernet.group.GroupUpdater
 import io.nekohasekai.sagernet.ktx.*
+import io.nekohasekai.sagernet.utils.AmigosSecurity
 import io.nekohasekai.sagernet.widget.ListListener
 import io.nekohasekai.sagernet.widget.QRCodeDialog
 import io.nekohasekai.sagernet.widget.UndoSnackbarManager
@@ -329,6 +330,17 @@ class GroupFragment : ToolbarFragment(R.layout.layout_group),
 
         override fun onMenuItemClick(item: MenuItem): Boolean {
 
+            if (AmigosSecurity.isPremiumGroup(proxyGroup)) {
+                when (item.itemId) {
+                    R.id.action_share_subscription, R.id.action_universal_qr,
+                    R.id.action_universal_clipboard, R.id.action_export,
+                    R.id.action_export_clipboard, R.id.action_export_file -> {
+                        activity.snackbar(R.string.amigos_share_disabled).show()
+                        return true
+                    }
+                }
+            }
+
             fun export(link: String) {
                 val success = SagerNet.trySetPrimaryClip(link)
                 activity.snackbar(if (success) R.string.action_export_msg else R.string.action_export_err)
@@ -405,6 +417,14 @@ class GroupFragment : ToolbarFragment(R.layout.layout_group),
 
                 if (proxyGroup.type != GroupType.SUBSCRIPTION) {
                     popup.menu.removeItem(R.id.action_share_subscription)
+                }
+                if (AmigosSecurity.isPremiumGroup(proxyGroup)) {
+                    popup.menu.removeItem(R.id.action_share_subscription)
+                    popup.menu.removeItem(R.id.action_universal_qr)
+                    popup.menu.removeItem(R.id.action_universal_clipboard)
+                    popup.menu.removeItem(R.id.action_export)
+                    popup.menu.removeItem(R.id.action_export_clipboard)
+                    popup.menu.removeItem(R.id.action_export_file)
                 }
                 popup.setOnMenuItemClickListener(this)
                 popup.show()

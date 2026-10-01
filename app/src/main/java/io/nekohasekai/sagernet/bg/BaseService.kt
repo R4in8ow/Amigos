@@ -8,7 +8,7 @@ import android.os.*
 import android.widget.Toast
 import io.nekohasekai.sagernet.Action
 import io.nekohasekai.sagernet.BootReceiver
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.aidl.ISagerNetService
 import io.nekohasekai.sagernet.aidl.ISagerNetServiceCallback

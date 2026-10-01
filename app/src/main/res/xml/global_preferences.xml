@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/amigos_account">
+        <Preference
+            app:icon="@drawable/ic_baseline_person_24"
+            app:key="amigosLogout"
+            app:summary="@string/amigos_logout_summary_user"
+            app:title="@string/amigos_logout" />
+    </PreferenceCategory>
     <PreferenceCategory app:title="@string/general_settings">
         <SwitchPreference
             app:defaultValue="false"
@@ -232,6 +239,17 @@
             app:icon="@drawable/ic_action_lock_open"
             app:key="globalAllowInsecure"
             app:title="@string/global_allow_insecure" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:icon="@drawable/ic_baseline_security_24"
+            app:key="autoFragment"
+            app:summary="@string/auto_fragment_sum"
+            app:title="@string/auto_fragment" />
+        <Preference
+            app:icon="@drawable/ic_baseline_compare_arrows_24"
+            app:key="applyFragmentToAll"
+            app:summary="@string/apply_fragment_to_all_sum"
+            app:title="@string/apply_fragment_to_all" />
         <SwitchPreference
             app:key="allowInsecureOnRequest"
             app:title="@string/allow_insecure_on_request_sum" />

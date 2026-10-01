@@ -18,6 +18,10 @@
             app:key="serverPort"
             app:title="@string/server_port"
             app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="portHint"
+            app:selectable="false"
+            app:summary="@string/profile_port_hint" />
         <EditTextPreference
             app:icon="@drawable/ic_baseline_person_24"
             app:key="username"
@@ -118,6 +122,18 @@
             app:key="allowInsecure"
             app:summary="@string/allow_insecure_sum"
             app:title="@string/allow_insecure" />
+        <moe.matsuri.nb4a.ui.SimpleMenuPreference
+            app:defaultValue="inherit"
+            app:entries="@array/fragment_mode_entries"
+            app:entryValues="@array/fragment_mode_values"
+            app:icon="@drawable/ic_baseline_security_24"
+            app:key="enableFragment"
+            app:title="@string/enable_fragment_tls"
+            app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="fragmentHint"
+            app:selectable="false"
+            app:summary="@string/enable_fragment_tls_sum" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -182,6 +198,14 @@
             app:key="echConfig"
             app:title="@string/ech_config"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="serverConnectionHelpCategory"
+        app:title="@string/connection_help">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/connection_help_sum" />
     </PreferenceCategory>
 
 </PreferenceScreen>

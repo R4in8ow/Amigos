@@ -1,7 +1,7 @@
 package io.nekohasekai.sagernet.group
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.GroupManager
 import io.nekohasekai.sagernet.database.ProxyGroup
 import io.nekohasekai.sagernet.ktx.onMainDispatcher

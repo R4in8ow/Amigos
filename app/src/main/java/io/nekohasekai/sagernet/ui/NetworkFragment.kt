@@ -3,8 +3,8 @@ package io.nekohasekai.sagernet.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import io.nekohasekai.sagernet.R
-import io.nekohasekai.sagernet.databinding.LayoutNetworkBinding
+import com.r4in8ow.amigos.R
+import com.r4in8ow.amigos.databinding.LayoutNetworkBinding
 import io.nekohasekai.sagernet.ktx.app
 
 class NetworkFragment : NamedFragment(R.layout.layout_network) {

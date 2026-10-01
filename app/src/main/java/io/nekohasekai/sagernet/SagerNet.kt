@@ -58,6 +58,7 @@ class SagerNet : Application(),
 
         if (isMainProcess || isBgProcess) {
             externalAssets.mkdirs()
+            AmigosAds.init(this)
             Seq.setContext(this)
             Libcore.initCore(
                 process,

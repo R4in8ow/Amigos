@@ -5,12 +5,12 @@
         <item name="actionModeCloseDrawable">@drawable/ic_navigation_close</item>
         <item name="colorButtonNormal">?colorAccent</item>
         <item name="android:navigationBarColor">?colorPrimaryDark</item>
-        <item name="colorPrimary">@color/material_pink_500</item>
-        <item name="colorPrimaryDark">@color/material_pink_700</item>
-        <item name="colorAccent">@color/material_pink_accent_200</item>
+        <item name="colorPrimary">@color/amigos_teal</item>
+        <item name="colorPrimaryDark">@color/amigos_teal_dark</item>
+        <item name="colorAccent">@color/amigos_amber</item>
 
-        <item name="colorMaterial100">@color/material_pink_100</item>
-        <item name="colorMaterial300">@color/material_pink_300</item>
+        <item name="colorMaterial100">@color/amigos_amber_light</item>
+        <item name="colorMaterial300">@color/amigos_teal</item>
 
         <item name="accentOrTextSecondary">?colorAccent</item>
         <item name="accentOrTextPrimary">?colorAccent</item>
@@ -53,12 +53,12 @@
         <item name="actionModeCloseDrawable">@drawable/ic_navigation_close</item>
         <item name="colorButtonNormal">?colorAccent</item>
         <item name="android:navigationBarColor">?colorPrimaryDark</item>
-        <item name="colorPrimary">@color/material_pink_500</item>
-        <item name="colorPrimaryDark">@color/material_pink_700</item>
-        <item name="colorAccent">@color/material_pink_accent_200</item>
+        <item name="colorPrimary">@color/amigos_teal</item>
+        <item name="colorPrimaryDark">@color/amigos_teal_dark</item>
+        <item name="colorAccent">@color/amigos_amber</item>
 
-        <item name="colorMaterial100">@color/material_pink_100</item>
-        <item name="colorMaterial300">@color/material_pink_300</item>
+        <item name="colorMaterial100">@color/amigos_amber_light</item>
+        <item name="colorMaterial300">@color/amigos_teal</item>
 
         <item name="accentOrTextSecondary">?colorAccent</item>
         <item name="accentOrTextPrimary">?colorAccent</item>
@@ -135,7 +135,7 @@
     <style name="Theme.SagerNet.Pink_SSR">
         <item name="colorPrimary">@color/color_pink_ssr</item>
         <item name="colorPrimaryDark">@color/color_pink_ssr</item>
-        <item name="colorAccent">@color/material_pink_accent_200</item>
+        <item name="colorAccent">@color/amigos_amber</item>
         <item name="colorMaterial100">@color/material_pink_accent_100</item>
         <item name="colorMaterial300">@color/color_pink_ssr</item>
     </style>
@@ -285,6 +285,16 @@
         <item name="colorOnPrimarySurface">@color/black</item>
     </style>
 
+    <style name="Theme.SagerNet.Amigos">
+        <item name="colorPrimary">@color/amigos_teal</item>
+        <item name="colorPrimaryDark">@color/amigos_teal_dark</item>
+        <item name="colorAccent">@color/amigos_amber</item>
+        <item name="colorMaterial100">@color/amigos_amber_light</item>
+        <item name="colorMaterial300">@color/amigos_teal</item>
+        <item name="fabColorBackground">?colorAccent</item>
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
+    </style>
+
     <style name="Theme.SagerNet.Dialog.Amber">
         <item name="colorPrimary">@color/material_amber_500</item>
         <item name="colorPrimaryDark">@color/material_amber_700</item>
@@ -416,7 +426,7 @@
     <style name="Theme.SagerNet.Dialog.Pink_SSR">
         <item name="colorPrimary">@color/color_pink_ssr</item>
         <item name="colorPrimaryDark">@color/color_pink_ssr</item>
-        <item name="colorAccent">@color/material_pink_accent_200</item>
+        <item name="colorAccent">@color/amigos_amber</item>
         <item name="colorMaterial100">@color/material_pink_accent_100</item>
         <item name="colorMaterial300">@color/color_pink_ssr</item>
     </style>
@@ -470,6 +480,14 @@
         <item name="accentOrTextPrimary">?android:textColorPrimary</item>
         <item name="primaryOrTextSecondary">?android:textColorSecondary</item>
         <item name="primaryOrTextPrimary">?android:textColorPrimary</item>
+    </style>
+
+    <style name="Theme.SagerNet.Dialog.Amigos">
+        <item name="colorPrimary">@color/amigos_teal</item>
+        <item name="colorPrimaryDark">@color/amigos_teal_dark</item>
+        <item name="colorAccent">@color/amigos_amber</item>
+        <item name="colorMaterial100">@color/amigos_amber_light</item>
+        <item name="colorMaterial300">@color/amigos_teal</item>
     </style>
 
     <style name="Theme.Start" parent="Theme.MaterialComponents.DayNight">

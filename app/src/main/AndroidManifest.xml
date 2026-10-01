@@ -49,7 +49,7 @@
 
     <application
         android:name="io.nekohasekai.sagernet.SagerNet"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:autoRevokePermissions="allowed"
         android:banner="@mipmap/ic_launcher"
         android:dataExtractionRules="@xml/backup_rules"
@@ -67,10 +67,24 @@
         <meta-data
             android:name="android.app.shortcuts"
             android:resource="@xml/shortcuts" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3961408285604914~7414370366" />
 
         <activity
             android:name="io.nekohasekai.sagernet.ui.BlankActivity"
             android:configChanges="uiMode" />
+
+        <activity
+            android:name="io.nekohasekai.sagernet.ui.AmigosLoginActivity"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="io.nekohasekai.sagernet.ui.FreeServersActivity"
+            android:configChanges="uiMode"
+            android:exported="false" />
 
         <activity
             android:name="io.nekohasekai.sagernet.ui.MainActivity"

@@ -2,7 +2,7 @@ package io.nekohasekai.sagernet.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.ProfileManager
 import moe.matsuri.nb4a.ui.SimpleMenuPreference

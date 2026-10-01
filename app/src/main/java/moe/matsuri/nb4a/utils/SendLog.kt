@@ -3,8 +3,8 @@ package moe.matsuri.nb4a.utils
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.FileProvider
-import io.nekohasekai.sagernet.BuildConfig
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.BuildConfig
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.ktx.Logs
 import io.nekohasekai.sagernet.ktx.app

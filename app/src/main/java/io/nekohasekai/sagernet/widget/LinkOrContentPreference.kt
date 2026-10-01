@@ -7,7 +7,7 @@ import androidx.core.content.res.TypedArrayUtils
 import androidx.core.widget.addTextChangedListener
 import androidx.preference.EditTextPreference
 import com.google.android.material.textfield.TextInputLayout
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.ktx.app
 import io.nekohasekai.sagernet.ktx.readableMessage
 import okhttp3.HttpUrl.Companion.toHttpUrl

@@ -35,10 +35,11 @@ import io.nekohasekai.sagernet.database.GroupManager
 import io.nekohasekai.sagernet.database.ProfileManager
 import io.nekohasekai.sagernet.database.SagerDatabase
 import io.nekohasekai.sagernet.database.preference.OnPreferenceDataStoreChangeListener
-import io.nekohasekai.sagernet.databinding.LayoutGroupItemBinding
+import com.r4in8ow.amigos.databinding.LayoutGroupItemBinding
 import io.nekohasekai.sagernet.fmt.AbstractBean
 import io.nekohasekai.sagernet.ktx.*
 import io.nekohasekai.sagernet.ui.ThemedActivity
+import io.nekohasekai.sagernet.utils.AmigosSecurity
 import io.nekohasekai.sagernet.widget.ListListener
 import kotlinx.parcelize.Parcelize
 import kotlin.properties.Delegates
@@ -116,6 +117,12 @@ abstract class ProfileSettingsActivity<T : AbstractBean>(
                     }
                     DataStore.editingGroup = proxyEntity!!.groupId
                     (proxyEntity!!.requireBean() as T).init()
+                }
+
+                if (AmigosSecurity.isPremiumGroupId(DataStore.editingGroup)) {
+                    onMainDispatcher {
+                        AmigosSecurity.applyFlagSecure(this@ProfileSettingsActivity)
+                    }
                 }
 
                 onMainDispatcher {

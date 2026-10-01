@@ -2,7 +2,7 @@
 
 package io.nekohasekai.sagernet.ktx
 
-import io.nekohasekai.sagernet.BuildConfig
+import com.r4in8ow.amigos.BuildConfig
 import io.nekohasekai.sagernet.fmt.AbstractBean
 import moe.matsuri.nb4a.utils.NGUtil
 import okhttp3.HttpUrl

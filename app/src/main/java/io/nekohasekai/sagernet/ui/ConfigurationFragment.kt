@@ -39,7 +39,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import io.nekohasekai.sagernet.GroupOrder
 import io.nekohasekai.sagernet.GroupType
 import io.nekohasekai.sagernet.Key
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.aidl.TrafficData
 import io.nekohasekai.sagernet.bg.BaseService
@@ -51,8 +51,8 @@ import io.nekohasekai.sagernet.database.ProxyEntity
 import io.nekohasekai.sagernet.database.ProxyGroup
 import io.nekohasekai.sagernet.database.SagerDatabase
 import io.nekohasekai.sagernet.database.preference.OnPreferenceDataStoreChangeListener
-import io.nekohasekai.sagernet.databinding.LayoutProfileListBinding
-import io.nekohasekai.sagernet.databinding.LayoutProgressListBinding
+import com.r4in8ow.amigos.databinding.LayoutProfileListBinding
+import com.r4in8ow.amigos.databinding.LayoutProgressListBinding
 import io.nekohasekai.sagernet.fmt.AbstractBean
 import io.nekohasekai.sagernet.fmt.toUniversalLink
 import io.nekohasekai.sagernet.group.GroupUpdater
@@ -90,6 +90,7 @@ import io.nekohasekai.sagernet.ui.profile.TrojanSettingsActivity
 import io.nekohasekai.sagernet.ui.profile.TuicSettingsActivity
 import io.nekohasekai.sagernet.ui.profile.VMessSettingsActivity
 import io.nekohasekai.sagernet.ui.profile.WireGuardSettingsActivity
+import io.nekohasekai.sagernet.utils.AmigosSecurity
 import io.nekohasekai.sagernet.widget.QRCodeDialog
 import io.nekohasekai.sagernet.widget.UndoSnackbarManager
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -1472,6 +1473,7 @@ class ConfigurationFragment @JvmOverloads constructor(
             PopupMenu.OnMenuItemClickListener {
 
             lateinit var entity: ProxyEntity
+            var premiumExportBlocked = false
 
             val profileName: TextView = view.findViewById(R.id.profile_name)
             val profileType: TextView = view.findViewById(R.id.profile_type)
@@ -1620,10 +1622,13 @@ class ConfigurationFragment @JvmOverloads constructor(
                     val selected = (selectedItem?.id ?: DataStore.selectedProxy) == proxyEntity.id
                     val started =
                         selected && DataStore.serviceState.started && DataStore.currentProfile == proxyEntity.id
+                    val premium = AmigosSecurity.isPremiumGroupId(proxyEntity.groupId)
+                    premiumExportBlocked = premium
                     onMainDispatcher {
                         editButton.isEnabled = !started
                         removeButton.isEnabled = !started
                         selectedView.visibility = if (selected) View.VISIBLE else View.INVISIBLE
+                        if (premium) shareLayout.isGone = true
                     }
 
                     fun showShare(anchor: View) {
@@ -1652,7 +1657,7 @@ class ConfigurationFragment @JvmOverloads constructor(
                         popup.show()
                     }
 
-                    if (!(select || proxyEntity.type == ProxyEntity.TYPE_CHAIN)) {
+                    if (!(select || proxyEntity.type == ProxyEntity.TYPE_CHAIN) && !premium) {
                         onMainDispatcher {
                             shareLayer.setBackgroundColor(Color.TRANSPARENT)
                             shareButton.setImageResource(R.drawable.ic_social_share)
@@ -1680,6 +1685,16 @@ class ConfigurationFragment @JvmOverloads constructor(
             }
 
             override fun onMenuItemClick(item: MenuItem): Boolean {
+                if (premiumExportBlocked) {
+                    when (item.itemId) {
+                        R.id.action_standard_qr, R.id.action_universal_qr,
+                        R.id.action_standard_clipboard, R.id.action_universal_clipboard,
+                        R.id.action_config_export_clipboard, R.id.action_config_export_file -> {
+                            (activity as MainActivity).snackbar(R.string.amigos_share_disabled).show()
+                            return true
+                        }
+                    }
+                }
                 try {
                     currentName = entity.displayName()!!
                     when (item.itemId) {

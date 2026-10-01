@@ -1,6 +1,6 @@
 package io.nekohasekai.sagernet.fmt
 
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 
 enum class PluginEntry(

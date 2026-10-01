@@ -27,7 +27,17 @@ android {
         viewBinding = true
         aidl = true
     }
-    namespace = "io.nekohasekai.sagernet"
+    namespace = "com.r4in8ow.amigos"
+    defaultConfig {
+        // Amigos: curated free-server list endpoint. Change here to point elsewhere.
+        // The file is fetched over HTTPS and validated against the schema documented
+        // in docs/free-servers.example.json before anything is imported.
+        buildConfigField(
+            "String",
+            "FREE_SERVERS_URL",
+            "\"https://amigos.r4in8ow.online/free-servers.json\""
+        )
+    }
     packaging {
         jniLibs {
             useLegacyPackaging = true
@@ -56,6 +66,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.work:work-multiprocess:2.8.1")
+
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
 
     implementation("com.google.android.material:material:1.8.0")
     implementation("com.google.code.gson:gson:2.9.0")

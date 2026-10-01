@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#003644</color>
+    <color name="amigos_teal">#003644</color>
+    <color name="amigos_teal_dark">#002A35</color>
+    <color name="amigos_teal_deep">#001F2A</color>
+    <color name="amigos_amber">#F09B21</color>
+    <color name="amigos_amber_light">#F7B955</color>
+    <color name="amigos_amber_dark">#C67A10</color>
+    <color name="amigos_white">#FFFFFF</color>
+</resources>

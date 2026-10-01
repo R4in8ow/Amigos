@@ -20,10 +20,10 @@ import com.king.zxing.analyze.QRCodeAnalyzer
 import com.king.zxing.util.CodeUtils
 import com.king.zxing.util.LogUtils
 import com.king.zxing.util.PermissionUtils
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.ProfileManager
-import io.nekohasekai.sagernet.databinding.LayoutScannerBinding
+import com.r4in8ow.amigos.databinding.LayoutScannerBinding
 import io.nekohasekai.sagernet.group.RawUpdater
 import io.nekohasekai.sagernet.ktx.*
 import java.util.concurrent.atomic.AtomicBoolean

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import com.jakewharton.processphoenix.ProcessPhoenix
-import io.nekohasekai.sagernet.BuildConfig
+import com.r4in8ow.amigos.BuildConfig
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.database.preference.PublicDatabase
 import io.nekohasekai.sagernet.ktx.Logs

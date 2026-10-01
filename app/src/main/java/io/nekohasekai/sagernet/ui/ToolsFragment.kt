@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import io.nekohasekai.sagernet.R
-import io.nekohasekai.sagernet.databinding.LayoutToolsBinding
+import com.r4in8ow.amigos.R
+import com.r4in8ow.amigos.databinding.LayoutToolsBinding
 
 class ToolsFragment : ToolbarFragment(R.layout.layout_tools) {
 

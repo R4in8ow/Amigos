@@ -18,12 +18,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.ProfileManager
 import io.nekohasekai.sagernet.database.ProxyEntity
-import io.nekohasekai.sagernet.databinding.LayoutAddEntityBinding
-import io.nekohasekai.sagernet.databinding.LayoutProfileBinding
+import com.r4in8ow.amigos.databinding.LayoutAddEntityBinding
+import com.r4in8ow.amigos.databinding.LayoutProfileBinding
 import io.nekohasekai.sagernet.fmt.internal.ChainBean
 import io.nekohasekai.sagernet.ktx.*
 import io.nekohasekai.sagernet.ui.ProfileSelectActivity

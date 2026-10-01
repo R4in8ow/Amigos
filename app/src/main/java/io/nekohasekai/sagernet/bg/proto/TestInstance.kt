@@ -1,6 +1,6 @@
 package io.nekohasekai.sagernet.bg.proto
 
-import io.nekohasekai.sagernet.BuildConfig
+import com.r4in8ow.amigos.BuildConfig
 import io.nekohasekai.sagernet.bg.GuardedProcessPool
 import io.nekohasekai.sagernet.database.ProxyEntity
 import io.nekohasekai.sagernet.fmt.buildConfig

@@ -8,9 +8,11 @@ import androidx.work.ExistingPeriodicWorkPolicy.UPDATE
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.multiprocess.RemoteWorkManager
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
+import io.nekohasekai.sagernet.GroupType
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.SagerDatabase
+import io.nekohasekai.sagernet.free.FreeServerManager
 import io.nekohasekai.sagernet.group.GroupUpdater
 import io.nekohasekai.sagernet.ktx.Logs
 import io.nekohasekai.sagernet.ktx.app
@@ -19,20 +21,30 @@ import java.util.concurrent.TimeUnit
 object SubscriptionUpdater {
 
     private const val WORK_NAME = "SubscriptionUpdater"
+    private const val FREE_SERVERS_UPDATE_DELAY_MIN = 360L
 
     suspend fun reconfigureUpdater() {
         RemoteWorkManager.getInstance(app).cancelUniqueWork(WORK_NAME)
 
         val subscriptions = SagerDatabase.groupDao.subscriptions()
             .filter { it.subscription!!.autoUpdate }
-        if (subscriptions.isEmpty()) return
+        val hasFreeServers = SagerDatabase.groupDao.allGroups()
+            .any { it.type == GroupType.BASIC && it.name == FreeServerManager.GROUP_NAME }
+        if (subscriptions.isEmpty() && !hasFreeServers) return
 
         // PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
-        var minDelay =
+        var minDelay = if (subscriptions.isNotEmpty()) {
             subscriptions.minByOrNull { it.subscription!!.autoUpdateDelay }!!.subscription!!.autoUpdateDelay.toLong()
+        } else {
+            FREE_SERVERS_UPDATE_DELAY_MIN
+        }
+        if (hasFreeServers) minDelay = minOf(minDelay, FREE_SERVERS_UPDATE_DELAY_MIN)
         val now = System.currentTimeMillis() / 1000L
-        var minInitDelay =
+        var minInitDelay = if (subscriptions.isNotEmpty()) {
             subscriptions.minOf { now - it.subscription!!.lastUpdated - (minDelay * 60) }
+        } else {
+            0L
+        }
         if (minDelay < 15) minDelay = 15
         if (minInitDelay > 60) minInitDelay = 60
 
@@ -86,6 +98,17 @@ object SubscriptionUpdater {
                 nm.notify(2, notification.build())
 
                 GroupUpdater.executeUpdate(profile, false)
+            }
+
+            val hasFreeServers = SagerDatabase.groupDao.allGroups()
+                .any { it.type == GroupType.BASIC && it.name == FreeServerManager.GROUP_NAME }
+            if (hasFreeServers) {
+                try {
+                    FreeServerManager.refresh()
+                    Logs.d("work: free servers refreshed")
+                } catch (e: Exception) {
+                    Logs.w("work: free servers refresh failed: ${e.message}")
+                }
             }
 
             nm.cancel(2)

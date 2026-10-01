@@ -1,7 +1,7 @@
 package io.nekohasekai.sagernet.database
 
 import android.database.sqlite.SQLiteCantOpenDatabaseException
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.aidl.TrafficData
 import io.nekohasekai.sagernet.fmt.AbstractBean
 import io.nekohasekai.sagernet.ktx.Logs

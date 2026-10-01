@@ -1,7 +1,7 @@
 package io.nekohasekai.sagernet.group
 
 import android.annotation.SuppressLint
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.*
 import io.nekohasekai.sagernet.fmt.AbstractBean
 import io.nekohasekai.sagernet.fmt.http.HttpBean
@@ -87,6 +87,8 @@ object RawUpdater : GroupUpdater() {
             }
         }
 
+        if (proxies.isEmpty()) error(app.getString(R.string.no_proxies_found_in_subscription))
+
         val proxiesMap = LinkedHashMap<String, AbstractBean>()
         for (proxy in proxies) {
             var index = 0
@@ -164,6 +166,10 @@ object RawUpdater : GroupUpdater() {
                 // 更新订阅，保留自定义覆写设置
                 bean.customOutboundJson = existsBean.customOutboundJson
                 bean.customConfigJson = existsBean.customConfigJson
+                // Amigos: keep the per-profile fragment override across subscription refreshes
+                if (bean is StandardV2RayBean && existsBean is StandardV2RayBean) {
+                    bean.enableFragment = existsBean.enableFragment
+                }
                 when {
                     existsBean != bean -> {
                         changed++

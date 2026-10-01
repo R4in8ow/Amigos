@@ -2,7 +2,7 @@ package io.nekohasekai.sagernet.plugin
 
 import android.content.pm.ComponentInfo
 import android.content.pm.ProviderInfo
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.ktx.Logs

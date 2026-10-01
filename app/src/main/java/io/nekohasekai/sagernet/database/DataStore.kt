@@ -85,6 +85,12 @@ object DataStore : OnPreferenceDataStoreChangeListener {
     }
 
     var appTLSVersion by configurationStore.string(Key.APP_TLS_VERSION)
+    var amigosUsername by configurationStore.string(Key.AMIGOS_USERNAME) { "" }
+    var amigosOnboarded by configurationStore.boolean(Key.AMIGOS_ONBOARDED) { false }
+    var amigosFreeMode by configurationStore.boolean(Key.AMIGOS_FREE_MODE) { false }
+    var freeServersUpdatedAt by configurationStore.string(Key.FREE_SERVERS_UPDATED_AT) { "" }
+    var freeServersDisclaimerShown by configurationStore.boolean(Key.FREE_SERVERS_DISCLAIMER_SHOWN) { false }
+    var amigosLastInterstitial by configurationStore.long(Key.AMIGOS_LAST_INTERSTITIAL) { 0L }
     var enableClashAPI by configurationStore.boolean(Key.ENABLE_CLASH_API)
     var showBottomBar by configurationStore.boolean(Key.SHOW_BOTTOM_BAR)
 
@@ -167,6 +173,9 @@ object DataStore : OnPreferenceDataStoreChangeListener {
     // protocol
 
     var globalAllowInsecure by configurationStore.boolean(Key.GLOBAL_ALLOW_INSECURE) { false }
+
+    // Amigos: global Auto Fragment switch (default ON)
+    var autoFragment by configurationStore.boolean(Key.AUTO_FRAGMENT) { true }
 
     // old cache, DO NOT ADD
 

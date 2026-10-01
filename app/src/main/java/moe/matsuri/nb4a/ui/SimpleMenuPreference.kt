@@ -25,7 +25,7 @@ import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import androidx.preference.DropDownPreference
 import androidx.preference.PreferenceViewHolder
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.ktx.getColorAttr
 
 /**

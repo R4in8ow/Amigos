@@ -1,7 +1,7 @@
 package io.nekohasekai.sagernet.ui
 
 import android.os.Bundle
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.ProfileManager

@@ -13,8 +13,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnLayout
-import io.nekohasekai.sagernet.R
-import io.nekohasekai.sagernet.databinding.LayoutLogcatBinding
+import com.r4in8ow.amigos.R
+import com.r4in8ow.amigos.databinding.LayoutLogcatBinding
 import io.nekohasekai.sagernet.ktx.*
 import io.nekohasekai.sagernet.widget.ListListener
 import libcore.Libcore

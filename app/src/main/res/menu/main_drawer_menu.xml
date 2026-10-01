@@ -13,6 +13,11 @@
             android:title="@string/menu_group" />
 
         <item
+            android:id="@+id/nav_free_servers"
+            android:icon="@drawable/baseline_public_24"
+            android:title="@string/free_servers" />
+
+        <item
             android:id="@+id/nav_route"
             android:icon="@drawable/ic_maps_directions"
             android:title="@string/menu_route" />
@@ -43,10 +48,6 @@
     <group
         android:id="@+id/about"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_tuiguang"
-            android:icon="@drawable/ic_social_share"
-            android:title="@string/ads" />
         <item
             android:id="@+id/nav_faq"
             android:icon="@drawable/ic_device_data_usage"

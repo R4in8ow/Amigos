@@ -589,11 +589,27 @@ fun buildSingBoxOutboundStreamSettings(bean: StandardV2RayBean): V2RayTransportO
     return null
 }
 
+// Amigos: resolve whether TLS fragment is enabled for this profile.
+// Precedence: per-profile "Enable Fragment" setting > global Auto Fragment > default ON.
+fun StandardV2RayBean.resolveFragment(): Boolean = when (enableFragment) {
+    "off" -> false
+    "on" -> true
+    else -> DataStore.autoFragment // "inherit" (or unset on old data) -> global setting, default ON
+}
+
 fun buildSingBoxOutboundTLS(bean: StandardV2RayBean): OutboundTLSOptions? {
     if (bean.security != "tls") return null
     return OutboundTLSOptions().apply {
         enabled = true
         insecure = bean.allowInsecure || DataStore.globalAllowInsecure
+        // Amigos: TLS fragment for anti-DPI (Myanmar/CN networks).
+        // Reality runs over TLS, so this covers VLESS+Reality outbounds too.
+        // Precedence: per-profile setting > global Auto Fragment > default ON.
+        if (bean.resolveFragment()) {
+            fragment = true
+            // sing-box default is 500ms; 300ms is a sensible, slightly more aggressive value
+            fragment_fallback_delay = "300ms"
+        }
         if (bean.sni.isNotBlank()) server_name = bean.sni
         if (bean.alpn.isNotBlank()) alpn = bean.alpn.listByLineOrComma()
         if (bean.certificates.isNotBlank()) certificate = bean.certificates

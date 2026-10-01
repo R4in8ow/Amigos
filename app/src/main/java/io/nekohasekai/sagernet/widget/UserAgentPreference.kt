@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.content.res.TypedArrayUtils
 import androidx.preference.EditTextPreference
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.ktx.USER_AGENT
 
 class UserAgentPreference

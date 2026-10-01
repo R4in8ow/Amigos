@@ -9,6 +9,14 @@ object Key {
 
     const val PERSIST_ACROSS_REBOOT = "isAutoConnect"
 
+    const val AMIGOS_USERNAME = "amigosUsername"
+    const val AMIGOS_SUB_BASE = "https://amigos.r4in8ow.online/sub/"
+    const val AMIGOS_ONBOARDED = "amigosOnboarded"
+    const val AMIGOS_FREE_MODE = "amigosFreeMode"
+    const val FREE_SERVERS_UPDATED_AT = "freeServersUpdatedAt"
+    const val FREE_SERVERS_DISCLAIMER_SHOWN = "freeServersDisclaimerShown"
+    const val AMIGOS_LAST_INTERSTITIAL = "amigosLastInterstitial"
+
     const val APP_EXPERT = "isExpert"
     const val APP_THEME = "appTheme"
     const val NIGHT_THEME = "nightTheme"
@@ -55,6 +63,7 @@ object Key {
 
     // Protocol Settings
     const val GLOBAL_ALLOW_INSECURE = "globalAllowInsecure"
+    const val AUTO_FRAGMENT = "autoFragment"
 
     const val ACQUIRE_WAKE_LOCK = "acquireWakeLock"
     const val SHOW_BOTTOM_BAR = "showBottomBar"
@@ -99,6 +108,7 @@ object Key {
     const val SERVER_TLS_CAMOUFLAGE_CATEGORY = "serverTlsCamouflageCategory"
     const val SERVER_ECH_CATEORY = "serverECHCategory"
     const val SERVER_WS_CATEGORY = "serverWsCategory"
+    const val SERVER_CONNECTION_HELP_CATEGORY = "serverConnectionHelpCategory"
     const val SERVER_SS_CATEGORY = "serverSsCategory"
     const val SERVER_HEADERS = "serverHeaders"
     const val SERVER_ALLOW_INSECURE = "serverAllowInsecure"

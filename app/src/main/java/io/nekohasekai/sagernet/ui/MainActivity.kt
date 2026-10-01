@@ -18,10 +18,10 @@ import androidx.preference.PreferenceDataStore
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import io.nekohasekai.sagernet.BuildConfig
+import com.r4in8ow.amigos.BuildConfig
 import io.nekohasekai.sagernet.GroupType
 import io.nekohasekai.sagernet.Key
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.SagerNet
 import io.nekohasekai.sagernet.aidl.ISagerNetService
 import io.nekohasekai.sagernet.aidl.SpeedDisplayData
@@ -32,9 +32,10 @@ import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.GroupManager
 import io.nekohasekai.sagernet.database.ProfileManager
 import io.nekohasekai.sagernet.database.ProxyGroup
+import io.nekohasekai.sagernet.database.SagerDatabase
 import io.nekohasekai.sagernet.database.SubscriptionBean
 import io.nekohasekai.sagernet.database.preference.OnPreferenceDataStoreChangeListener
-import io.nekohasekai.sagernet.databinding.LayoutMainBinding
+import com.r4in8ow.amigos.databinding.LayoutMainBinding
 import io.nekohasekai.sagernet.fmt.AbstractBean
 import io.nekohasekai.sagernet.fmt.KryoConverters
 import io.nekohasekai.sagernet.fmt.PluginEntry
@@ -48,6 +49,7 @@ import io.nekohasekai.sagernet.ktx.onMainDispatcher
 import io.nekohasekai.sagernet.ktx.parseProxies
 import io.nekohasekai.sagernet.ktx.readableMessage
 import io.nekohasekai.sagernet.ktx.runOnDefaultDispatcher
+import io.nekohasekai.sagernet.utils.AmigosAds
 import moe.matsuri.nb4a.utils.Util
 
 class MainActivity : ThemedActivity(),
@@ -99,6 +101,16 @@ class MainActivity : ThemedActivity(),
         DataStore.configurationStore.registerChangeListener(this)
         GroupManager.userInterface = GroupInterfaceAdapter(this)
 
+        // Amigos onboarding: first run with no groups -> username login
+        runOnDefaultDispatcher {
+            val hasGroups = SagerDatabase.groupDao.allGroups().isNotEmpty()
+            if (!hasGroups && DataStore.amigosUsername.isBlank() && !DataStore.amigosFreeMode) {
+                onMainDispatcher {
+                    startActivity(Intent(this@MainActivity, AmigosLoginActivity::class.java))
+                }
+            }
+        }
+
         if (intent?.action == Intent.ACTION_VIEW) {
             onNewIntent(intent)
         }
@@ -129,7 +141,6 @@ class MainActivity : ThemedActivity(),
     fun refreshNavMenu(clashApi: Boolean) {
         if (::navigation.isInitialized) {
             navigation.menu.findItem(R.id.nav_traffic)?.isVisible = clashApi
-            navigation.menu.findItem(R.id.nav_tuiguang)?.isVisible = !isPlay
         }
     }
 
@@ -305,6 +316,11 @@ class MainActivity : ThemedActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.nav_free_servers) {
+            binding.drawerLayout.closeDrawers()
+            startActivity(Intent(this, FreeServersActivity::class.java))
+            return true
+        }
         if (item.isChecked) binding.drawerLayout.closeDrawers() else {
             return displayFragmentWithId(item.itemId)
         }
@@ -346,10 +362,6 @@ class MainActivity : ThemedActivity(),
             }
 
             R.id.nav_about -> displayFragment(AboutFragment())
-            R.id.nav_tuiguang -> {
-                launchCustomTab("https://neko-box.pages.dev/喵")
-                return false
-            }
 
             else -> return false
         }
@@ -379,7 +391,15 @@ class MainActivity : ThemedActivity(),
     }
 
     override fun stateChanged(state: BaseService.State, profileName: String?, msg: String?) {
+        val wasActive = DataStore.serviceState.canStop
         changeState(state, msg, true)
+        if (AmigosAds.isAdsEnabled()) {
+            if (state == BaseService.State.Connected) {
+                AmigosAds.preloadInterstitial(this)
+            } else if (wasActive && (state == BaseService.State.Stopped || state == BaseService.State.Idle)) {
+                AmigosAds.showInterstitialIfDue(this)
+            }
+        }
     }
 
     val connection = SagerConnection(SagerConnection.CONNECTION_ID_MAIN_ACTIVITY_FOREGROUND, true)
