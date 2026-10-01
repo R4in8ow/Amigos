@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.r4in8ow.amigos.databinding.LayoutAmigosLoginBinding
 import io.nekohasekai.sagernet.GroupType
 import io.nekohasekai.sagernet.Key
-import io.nekohasekai.sagernet.R
+import com.r4in8ow.amigos.R
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.GroupManager
 import io.nekohasekai.sagernet.database.ProxyGroup
@@ -120,7 +120,6 @@ class AmigosLoginActivity : AppCompatActivity() {
                 subscription!!.lastUpdated = 0
                 subscription!!.autoUpdate = true
                 if (subscription!!.autoUpdateDelay <= 0) subscription!!.autoUpdateDelay = 360
-                serialize()
             }.also { GroupManager.updateGroup(it) }
         } else {
             GroupManager.createGroup(
@@ -133,7 +132,7 @@ class AmigosLoginActivity : AppCompatActivity() {
                         autoUpdateDelay = 360
                         updateWhenConnectedOnly = false
                     }
-                ).apply { serialize() }
+                )
             )
         }
     }

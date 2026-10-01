@@ -98,7 +98,8 @@ object FreeServerManager {
         val out = ArrayList<FreeServerEntry>(arr.length())
         var skipped = 0
         for (i in 0 until arr.length()) {
-            val o = arr.optJSONObject(i) ?: run { skipped++; continue }
+            val o = arr.optJSONObject(i)
+            if (o == null) { skipped++; continue }
             val region = o.optString("region", "").trim()
             val name = o.optString("name", "").trim()
             val type = o.optString("type", "").trim().lowercase()
@@ -171,7 +172,7 @@ object FreeServerManager {
             .firstOrNull { it.type == GroupType.BASIC && it.name == GROUP_NAME }
         if (existing != null) return existing
         return GroupManager.createGroup(
-            ProxyGroup(name = GROUP_NAME, type = GroupType.BASIC).apply { serialize() }
+            GroupManager.createGroup(ProxyGroup(name = GROUP_NAME, type = GroupType.BASIC))
         )
     }
 
