@@ -23,6 +23,11 @@
             android:title="@string/amigos_premium_login" />
 
         <item
+            android:id="@+id/nav_speedtest"
+            android:icon="@drawable/ic_baseline_speed_24"
+            android:title="@string/amigos_speedtest_title" />
+
+        <item
             android:id="@+id/nav_route"
             android:icon="@drawable/ic_maps_directions"
             android:title="@string/menu_route" />

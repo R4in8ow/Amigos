@@ -87,6 +87,11 @@
             android:exported="false" />
 
         <activity
+            android:name="io.nekohasekai.sagernet.ui.SpeedTestActivity"
+            android:configChanges="uiMode"
+            android:exported="false" />
+
+        <activity
             android:name="io.nekohasekai.sagernet.ui.MainActivity"
             android:configChanges="uiMode"
             android:exported="true"

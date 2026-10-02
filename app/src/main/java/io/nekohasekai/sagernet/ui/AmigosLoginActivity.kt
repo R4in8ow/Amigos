@@ -53,7 +53,9 @@ class AmigosLoginActivity : AppCompatActivity() {
     }
 
     private fun sanitizeUsername(raw: String): String {
-        return raw.trim().lowercase().replace(Regex("[^a-z0-9_-]"), "")
+        // NOTE: case is preserved — the subscription server treats
+        // usernames case-sensitively (/sub/R4in8ow works, /sub/r4in8ow 404s).
+        return raw.trim().replace(Regex("[^a-zA-Z0-9_-]"), "")
     }
 
     private fun setWorking(active: Boolean) {

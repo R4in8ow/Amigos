@@ -327,6 +327,11 @@ class MainActivity : ThemedActivity(),
             startActivity(Intent(this, AmigosLoginActivity::class.java))
             return true
         }
+        if (item.itemId == R.id.nav_speedtest) {
+            binding.drawerLayout.closeDrawers()
+            startActivity(Intent(this, SpeedTestActivity::class.java))
+            return true
+        }
         if (item.isChecked) binding.drawerLayout.closeDrawers() else {
             return displayFragmentWithId(item.itemId)
         }
