@@ -8,6 +8,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.r4in8ow.amigos.R
 import com.r4in8ow.amigos.databinding.LayoutHotspotShareBinding
 import io.nekohasekai.sagernet.SagerNet
+import io.nekohasekai.sagernet.aidl.ISagerNetService
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.bg.SagerConnection
 import io.nekohasekai.sagernet.database.DataStore
@@ -76,6 +77,8 @@ class HotspotShareActivity : ThemedActivity(), SagerConnection.Callback {
         updateConnectionUi(state, profileName)
         updateProxyCard()
     }
+
+    override fun onServiceConnected(service: ISagerNetService) = Unit
 
     // --- UI ---
 
