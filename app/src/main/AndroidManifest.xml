@@ -92,6 +92,11 @@
             android:exported="false" />
 
         <activity
+            android:name="io.nekohasekai.sagernet.ui.HotspotShareActivity"
+            android:configChanges="uiMode"
+            android:exported="false" />
+
+        <activity
             android:name="io.nekohasekai.sagernet.ui.MainActivity"
             android:configChanges="uiMode"
             android:exported="true"

@@ -28,6 +28,11 @@
             android:title="@string/amigos_speedtest_title" />
 
         <item
+            android:id="@+id/nav_hotspot"
+            android:icon="@drawable/ic_hotspot_24"
+            android:title="@string/amigos_hotspot_title" />
+
+        <item
             android:id="@+id/nav_route"
             android:icon="@drawable/ic_maps_directions"
             android:title="@string/menu_route" />

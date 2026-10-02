@@ -20,7 +20,7 @@ import kotlin.math.min
 object AmigosSpeedTest {
 
     data class ExitInfo(val ip: String, val countryCode: String)
-    data class TestResult(val downMbps: Double, upMbps: Double)
+    data class TestResult(val downMbps: Double, val upMbps: Double)
 
     private const val TRACE_URL = "https://www.cloudflare.com/cdn-cgi/trace"
     private const val DOWNLOAD_URL = "https://speed.cloudflare.com/__down"

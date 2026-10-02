@@ -332,6 +332,11 @@ class MainActivity : ThemedActivity(),
             startActivity(Intent(this, SpeedTestActivity::class.java))
             return true
         }
+        if (item.itemId == R.id.nav_hotspot) {
+            binding.drawerLayout.closeDrawers()
+            startActivity(Intent(this, HotspotShareActivity::class.java))
+            return true
+        }
         if (item.isChecked) binding.drawerLayout.closeDrawers() else {
             return displayFragmentWithId(item.itemId)
         }
