@@ -1,8 +1,12 @@
 package io.nekohasekai.sagernet.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.text.format.Formatter
 import android.view.View
+import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
@@ -49,6 +53,11 @@ class SpeedTestActivity : ThemedActivity(), SagerConnection.Callback {
         updateConnectionUi(DataStore.serviceState, null)
         binding.refreshLocationButton.setOnClickListener { refreshLocation() }
         binding.startTestButton.setOnClickListener { runTest() }
+
+        refreshSettingsUi()
+        binding.settingEndpointValue.setOnClickListener { editEndpoint() }
+        binding.settingSizeValue.setOnClickListener { editSize() }
+        binding.settingTimeoutValue.setOnClickListener { editTimeout() }
 
         connection.connect(this, this)
         refreshLocation()
@@ -188,5 +197,80 @@ class SpeedTestActivity : ThemedActivity(), SagerConnection.Callback {
 
     private fun formatMbps(mbps: Double): String {
         return String.format(Locale.US, "%.1f Mbps", mbps)
+    }
+
+    private fun refreshSettingsUi() {
+        binding.settingEndpointValue.text = DataStore.amigosSpeedtestEndpoint
+        binding.settingSizeValue.text =
+            getString(R.string.amigos_speedtest_size_unit, DataStore.amigosSpeedtestSizeMb)
+        binding.settingTimeoutValue.text =
+            getString(R.string.amigos_speedtest_timeout_unit, DataStore.amigosSpeedtestTimeoutS)
+    }
+
+    private fun showTextInput(
+        title: String,
+        current: String,
+        inputType: Int,
+        hint: String? = null,
+        onOk: (String) -> Boolean,
+    ) {
+        val input = EditText(this).apply {
+            setText(current)
+            this.inputType = inputType
+            hint?.let { this.hint = it }
+            val pad = (16 * resources.displayMetrics.density).toInt()
+            setPadding(pad, pad, pad, pad)
+        }
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setView(input)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                if (onOk(input.text.toString().trim())) {
+                    refreshSettingsUi()
+                } else {
+                    Toast.makeText(this, R.string.amigos_speedtest_invalid_value, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun editEndpoint() {
+        showTextInput(
+            getString(R.string.amigos_speedtest_edit_endpoint_title),
+            DataStore.amigosSpeedtestEndpoint,
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI,
+            getString(R.string.amigos_speedtest_endpoint_hint),
+        ) { value ->
+            if (!value.startsWith("http://") && !value.startsWith("https://")) return@showTextInput false
+            DataStore.amigosSpeedtestEndpoint = value.trimEnd('/')
+            true
+        }
+    }
+
+    private fun editSize() {
+        showTextInput(
+            getString(R.string.amigos_speedtest_edit_size_title),
+            DataStore.amigosSpeedtestSizeMb.toString(),
+            InputType.TYPE_CLASS_NUMBER,
+        ) { value ->
+            val mb = value.toIntOrNull() ?: return@showTextInput false
+            if (mb !in 1..500) return@showTextInput false
+            DataStore.amigosSpeedtestSizeMb = mb
+            true
+        }
+    }
+
+    private fun editTimeout() {
+        showTextInput(
+            getString(R.string.amigos_speedtest_edit_timeout_title),
+            DataStore.amigosSpeedtestTimeoutS.toString(),
+            InputType.TYPE_CLASS_NUMBER,
+        ) { value ->
+            val s = value.toIntOrNull() ?: return@showTextInput false
+            if (s !in 5..120) return@showTextInput false
+            DataStore.amigosSpeedtestTimeoutS = s
+            true
+        }
     }
 }

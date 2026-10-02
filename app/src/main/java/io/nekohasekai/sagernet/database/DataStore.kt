@@ -140,6 +140,12 @@ object DataStore : OnPreferenceDataStoreChangeListener {
         get() = getLocalPort(Key.AMIGOS_HOTSPOT_PORT, 10808)
         set(value) = saveLocalPort(Key.AMIGOS_HOTSPOT_PORT, value)
 
+    var amigosSpeedtestEndpoint by configurationStore.string(Key.AMIGOS_SPEEDTEST_ENDPOINT) {
+        "https://speed.cloudflare.com"
+    }
+    var amigosSpeedtestSizeMb by configurationStore.int(Key.AMIGOS_SPEEDTEST_SIZE_MB) { 20 }
+    var amigosSpeedtestTimeoutS by configurationStore.int(Key.AMIGOS_SPEEDTEST_TIMEOUT_S) { 30 }
+
     fun initGlobal() {
         if (configurationStore.getString(Key.MIXED_PORT) == null) {
             mixedPort = mixedPort

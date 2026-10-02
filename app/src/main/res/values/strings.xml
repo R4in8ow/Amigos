@@ -31,6 +31,17 @@
     <string name="amigos_speedtest_testing_upload">Testing upload…</string>
     <string name="amigos_speedtest_done">Test complete</string>
     <string name="amigos_speedtest_failed">Test failed. Check your connection and try again.</string>
+    <string name="amigos_speedtest_settings_title">Test settings</string>
+    <string name="amigos_speedtest_setting_endpoint">Test server</string>
+    <string name="amigos_speedtest_setting_size">Download size</string>
+    <string name="amigos_speedtest_setting_timeout">Timeout</string>
+    <string name="amigos_speedtest_size_unit">%1$d MB</string>
+    <string name="amigos_speedtest_timeout_unit">%1$d s</string>
+    <string name="amigos_speedtest_edit_endpoint_title">Test server</string>
+    <string name="amigos_speedtest_edit_size_title">Download size (MB, 1–500)</string>
+    <string name="amigos_speedtest_edit_timeout_title">Timeout (seconds, 5–120)</string>
+    <string name="amigos_speedtest_invalid_value">Enter a valid value</string>
+    <string name="amigos_speedtest_endpoint_hint">Must support the Cloudflare speed test API</string>
     <string name="amigos_premium_group">Premium servers</string>
     <string name="amigos_account">Account</string>
     <string name="amigos_logout">Sign out</string>

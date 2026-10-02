@@ -1,5 +1,6 @@
 package io.nekohasekai.sagernet.utils
 
+import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.ktx.Logs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,11 +24,18 @@ object AmigosSpeedTest {
     data class TestResult(val downMbps: Double, val upMbps: Double)
 
     private const val TRACE_URL = "https://www.cloudflare.com/cdn-cgi/trace"
-    private const val DOWNLOAD_URL = "https://speed.cloudflare.com/__down"
-    private const val UPLOAD_URL = "https://speed.cloudflare.com/__up"
-    private const val DOWNLOAD_BYTES = 20_000_000L
     private const val UPLOAD_BYTES = 8_000_000L
-    private const val MAX_TEST_SECONDS = 30L
+
+    private val endpoint: String
+        get() = DataStore.amigosSpeedtestEndpoint.trim().trimEnd('/').ifBlank {
+            "https://speed.cloudflare.com"
+        }
+    private val downloadUrl: String get() = "$endpoint/__down"
+    private val uploadUrl: String get() = "$endpoint/__up"
+    private val downloadBytes: Long
+        get() = DataStore.amigosSpeedtestSizeMb.coerceIn(1, 500) * 1_000_000L
+    private val maxTestSeconds: Long
+        get() = DataStore.amigosSpeedtestTimeoutS.coerceIn(5, 120).toLong()
 
     private val client: OkHttpClient by lazy {
         OkHttpClient.Builder()
@@ -60,10 +68,11 @@ object AmigosSpeedTest {
     }
 
     suspend fun runDownloadTest(onProgress: (Float) -> Unit): Double = withContext(Dispatchers.IO) {
-        val req = Request.Builder().url("$DOWNLOAD_URL?bytes=$DOWNLOAD_BYTES").header("User-Agent", "Amigos").build()
+        val bytes = downloadBytes
+        val req = Request.Builder().url("$downloadUrl?bytes=$bytes").header("User-Agent", "Amigos").build()
         var total = 0L
         val start = System.nanoTime()
-        val deadline = start + MAX_TEST_SECONDS * 1_000_000_000L
+        val deadline = start + maxTestSeconds * 1_000_000_000L
         client.newCall(req).execute().use { resp ->
             if (!resp.isSuccessful) throw IOException("HTTP ${resp.code}")
             val stream = resp.body?.byteStream() ?: throw IOException("empty body")
@@ -72,7 +81,7 @@ object AmigosSpeedTest {
                 val n = stream.read(buf)
                 if (n < 0) break
                 total += n
-                onProgress(total.toFloat() / DOWNLOAD_BYTES)
+                onProgress(total.toFloat() / bytes)
                 if (System.nanoTime() > deadline) break
             }
         }
@@ -84,7 +93,7 @@ object AmigosSpeedTest {
     suspend fun runUploadTest(onProgress: (Float) -> Unit): Double = withContext(Dispatchers.IO) {
         val start = System.nanoTime()
         val req = Request.Builder()
-            .url(UPLOAD_URL)
+            .url(uploadUrl)
             .header("User-Agent", "Amigos")
             .post(CountingRequestBody(UPLOAD_BYTES, onProgress))
             .build()

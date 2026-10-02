@@ -18,6 +18,9 @@ object Key {
     const val AMIGOS_LAST_INTERSTITIAL = "amigosLastInterstitial"
     const val AMIGOS_HOTSPOT_SHARE = "amigosHotspotShare"
     const val AMIGOS_HOTSPOT_PORT = "amigosHotspotPort"
+    const val AMIGOS_SPEEDTEST_ENDPOINT = "amigosSpeedtestEndpoint"
+    const val AMIGOS_SPEEDTEST_SIZE_MB = "amigosSpeedtestSizeMb"
+    const val AMIGOS_SPEEDTEST_TIMEOUT_S = "amigosSpeedtestTimeoutS"
 
     const val APP_EXPERT = "isExpert"
     const val APP_THEME = "appTheme"
