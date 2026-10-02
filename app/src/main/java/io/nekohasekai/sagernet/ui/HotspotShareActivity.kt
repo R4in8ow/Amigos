@@ -1,7 +1,11 @@
 package io.nekohasekai.sagernet.ui
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
@@ -43,15 +47,16 @@ class HotspotShareActivity : ThemedActivity(), SagerConnection.Callback {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        binding.shareSwitch.isChecked = DataStore.allowAccess
+        binding.shareSwitch.isChecked = DataStore.amigosHotspotShare
         binding.shareSwitch.setOnCheckedChangeListener { _, checked ->
-            DataStore.allowAccess = checked
+            DataStore.amigosHotspotShare = checked
             if (DataStore.serviceState.started) {
                 SagerNet.reloadService()
             }
             updateProxyCard()
         }
         binding.refreshIpButton.setOnClickListener { refreshHotspotIp() }
+        binding.proxyPortValue.setOnClickListener { editPort() }
 
         updateConnectionUi(DataStore.serviceState, null)
         updateProxyCard()
@@ -101,20 +106,49 @@ class HotspotShareActivity : ThemedActivity(), SagerConnection.Callback {
         val sharing = binding.shareSwitch.isChecked
         binding.proxyCard.visibility = if (sharing) View.VISIBLE else View.GONE
         if (!sharing) return
-        binding.proxyPortValue.text = DataStore.mixedPort.toString()
+        binding.proxyPortValue.text = DataStore.amigosHotspotPort.toString()
         refreshHotspotIp()
+    }
+
+    private fun editPort() {
+        val input = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER
+            setText(DataStore.amigosHotspotPort.toString())
+            setSelection(text.length)
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.amigos_hotspot_port_edit_title)
+            .setView(input)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                val port = input.text.toString().toIntOrNull()
+                if (port == null || port !in 1..65535) {
+                    Toast.makeText(
+                        this, R.string.amigos_hotspot_port_invalid, Toast.LENGTH_SHORT
+                    ).show()
+                    return@setPositiveButton
+                }
+                DataStore.amigosHotspotPort = port
+                if (DataStore.serviceState.started) {
+                    SagerNet.reloadService()
+                }
+                updateProxyCard()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun refreshHotspotIp() {
         lifecycleScope.launch {
-            val ip = withContext(Dispatchers.IO) { detectHotspotIp() }
-            if (ip != null) {
-                binding.proxyHostValue.text = ip
+            val info = withContext(Dispatchers.IO) { detectHotspotIp() }
+            if (info != null) {
+                binding.proxyIfaceValue.text = info.first
+                binding.proxyHostValue.text = info.second
             } else {
+                binding.proxyIfaceValue.text = "—"
                 binding.proxyHostValue.text = getString(R.string.amigos_hotspot_default_ip)
             }
             when {
-                ip == null -> {
+                info == null -> {
                     binding.hotspotHint.text = getString(R.string.amigos_hotspot_no_ip)
                     binding.hotspotHint.visibility = View.VISIBLE
                 }
@@ -140,8 +174,9 @@ class HotspotShareActivity : ThemedActivity(), SagerConnection.Callback {
     /**
      * Finds this phone's own IPv4 on the Wi-Fi hotspot / tethering interface,
      * which is the proxy host address hotspot clients must use.
+     * Returns (interface name, ip), or null when nothing is detected.
      */
-    private fun detectHotspotIp(): String? {
+    private fun detectHotspotIp(): Pair<String, String>? {
         return try {
             val addrs = mutableListOf<Pair<String, String>>()
             val ifaces = NetworkInterface.getNetworkInterfaces() ?: return null
@@ -160,10 +195,11 @@ class HotspotShareActivity : ThemedActivity(), SagerConnection.Callback {
                         n.startsWith("swlan") || n.startsWith("rndis") || n.startsWith("usb")
             }
             val hotspotAddrs = addrs.filter { isHotspotIf(it.first) }.ifEmpty { addrs }
-            hotspotAddrs.firstOrNull { (_, ip) ->
+            val picked = hotspotAddrs.firstOrNull { (_, ip) ->
                 ip.startsWith("192.168.43.") || ip.startsWith("192.168.137.") ||
                         ip.startsWith("192.168.42.")
-            }?.second ?: hotspotAddrs.firstOrNull()?.second
+            } ?: hotspotAddrs.firstOrNull()
+            return picked?.let { it.first to it.second }
         } catch (e: Exception) {
             Logs.w("HotspotShare: hotspot IP detect failed: ${e.message}")
             null

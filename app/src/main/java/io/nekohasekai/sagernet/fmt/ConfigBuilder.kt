@@ -234,6 +234,17 @@ fun buildConfig(
                 sniff = needSniff
                 sniff_override_destination = needSniffOverride
             })
+            // Amigos: dedicated share proxy for hotspot clients (V2Box-style),
+            // independent of the local mixed proxy above.
+            if (DataStore.amigosHotspotShare) inbounds.add(Inbound_MixedOptions().apply {
+                type = "mixed"
+                tag = "hotspot-in"
+                listen = "0.0.0.0"
+                listen_port = DataStore.amigosHotspotPort
+                domain_strategy = genDomainStrategy(DataStore.resolveDestination)
+                sniff = needSniff
+                sniff_override_destination = needSniffOverride
+            })
         }
 
         outbounds = mutableListOf()

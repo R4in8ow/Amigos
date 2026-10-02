@@ -135,9 +135,17 @@ object DataStore : OnPreferenceDataStoreChangeListener {
         get() = getLocalPort(Key.MIXED_PORT, 2080)
         set(value) = saveLocalPort(Key.MIXED_PORT, value)
 
+    var amigosHotspotShare by configurationStore.boolean(Key.AMIGOS_HOTSPOT_SHARE)
+    var amigosHotspotPort: Int
+        get() = getLocalPort(Key.AMIGOS_HOTSPOT_PORT, 10808)
+        set(value) = saveLocalPort(Key.AMIGOS_HOTSPOT_PORT, value)
+
     fun initGlobal() {
         if (configurationStore.getString(Key.MIXED_PORT) == null) {
             mixedPort = mixedPort
+        }
+        if (configurationStore.getString(Key.AMIGOS_HOTSPOT_PORT) == null) {
+            amigosHotspotPort = amigosHotspotPort
         }
     }
 

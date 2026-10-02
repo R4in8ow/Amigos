@@ -148,6 +148,29 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:text="@string/amigos_hotspot_interface"
+                                    android:textAppearance="?attr/textAppearanceBody2"
+                                    android:textColor="?android:textColorSecondary" />
+
+                                <TextView
+                                    android:id="@+id/proxy_iface_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="—"
+                                    android:textAppearance="?attr/textAppearanceBody1"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:text="@string/amigos_hotspot_proxy_host"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:textColorSecondary" />
@@ -180,9 +203,11 @@
                                     android:id="@+id/proxy_port_value"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="true"
                                     android:text="—"
                                     android:textAppearance="?attr/textAppearanceBody1"
-                                    android:textIsSelectable="true"
+                                    android:textColor="@color/amigos_amber"
                                     android:textStyle="bold" />
                             </LinearLayout>
 

@@ -42,8 +42,11 @@
     <string name="amigos_hotspot_toggle_title">Share VPN with hotspot</string>
     <string name="amigos_hotspot_toggle_summary">Let devices on your Wi-Fi hotspot use this phone\'s VPN through a local proxy. No root needed.</string>
     <string name="amigos_hotspot_proxy_title">Proxy details</string>
+    <string name="amigos_hotspot_interface">Interface</string>
     <string name="amigos_hotspot_proxy_host">Proxy host</string>
-    <string name="amigos_hotspot_proxy_port">Proxy port</string>
+    <string name="amigos_hotspot_proxy_port">Port (tap to change)</string>
+    <string name="amigos_hotspot_port_edit_title">Proxy port</string>
+    <string name="amigos_hotspot_port_invalid">Enter a valid port (1–65535)</string>
     <string name="amigos_hotspot_proxy_type">Proxy type</string>
     <string name="amigos_hotspot_proxy_type_value">HTTP / SOCKS5</string>
     <string name="amigos_hotspot_default_ip">192.168.43.1</string>
