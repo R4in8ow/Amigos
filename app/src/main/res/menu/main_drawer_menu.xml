@@ -18,6 +18,11 @@
             android:title="@string/free_servers" />
 
         <item
+            android:id="@+id/nav_premium_login"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="@string/amigos_premium_login" />
+
+        <item
             android:id="@+id/nav_route"
             android:icon="@drawable/ic_maps_directions"
             android:title="@string/menu_route" />

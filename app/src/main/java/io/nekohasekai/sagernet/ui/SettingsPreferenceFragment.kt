@@ -221,12 +221,13 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
                                 }
                             }
                             DataStore.amigosUsername = ""
+                            DataStore.amigosFreeMode = true
                             DataStore.amigosOnboarded = false
                             onMainDispatcher {
                                 startActivity(
                                     Intent(
                                         requireContext(),
-                                        AmigosLoginActivity::class.java
+                                        MainActivity::class.java
                                     ).apply {
                                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                     })

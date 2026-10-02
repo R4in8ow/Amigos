@@ -101,12 +101,13 @@ class MainActivity : ThemedActivity(),
         DataStore.configurationStore.registerChangeListener(this)
         GroupManager.userInterface = GroupInterfaceAdapter(this)
 
-        // Amigos onboarding: first run with no groups -> username login
+        // Amigos: first run with no groups -> free servers directly (no forced login)
         runOnDefaultDispatcher {
             val hasGroups = SagerDatabase.groupDao.allGroups().isNotEmpty()
             if (!hasGroups && DataStore.amigosUsername.isBlank() && !DataStore.amigosFreeMode) {
                 onMainDispatcher {
-                    startActivity(Intent(this@MainActivity, AmigosLoginActivity::class.java))
+                    DataStore.amigosFreeMode = true
+                    startActivity(Intent(this@MainActivity, FreeServersActivity::class.java))
                 }
             }
         }
@@ -319,6 +320,11 @@ class MainActivity : ThemedActivity(),
         if (item.itemId == R.id.nav_free_servers) {
             binding.drawerLayout.closeDrawers()
             startActivity(Intent(this, FreeServersActivity::class.java))
+            return true
+        }
+        if (item.itemId == R.id.nav_premium_login) {
+            binding.drawerLayout.closeDrawers()
+            startActivity(Intent(this, AmigosLoginActivity::class.java))
             return true
         }
         if (item.isChecked) binding.drawerLayout.closeDrawers() else {

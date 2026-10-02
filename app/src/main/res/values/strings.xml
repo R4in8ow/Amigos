@@ -9,6 +9,8 @@
     <string name="amigos_login_error_empty">Please enter your username</string>
     <string name="amigos_login_error_failed">Sign-in failed. Check your username and connection, then try again.</string>
     <string name="amigos_login_working">Setting things up…</string>
+    <string name="amigos_premium_login">Premium login</string>
+    <string name="amigos_premium_login_subtitle">Sign in to unlock premium servers</string>
     <string name="amigos_premium_group">Premium servers</string>
     <string name="amigos_account">Account</string>
     <string name="amigos_logout">Sign out</string>

@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
-                android:text="@string/amigos_login_subtitle"
+                android:text="@string/amigos_premium_login_subtitle"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:textColorSecondary" />
 
@@ -83,15 +83,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:visibility="gone" />
-
-            <Button
-                android:id="@+id/free_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/free_servers_continue"
-                android:textColor="?attr/colorPrimary" />
 
             <TextView
                 android:id="@+id/login_error"

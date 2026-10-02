@@ -21,9 +21,10 @@ import io.nekohasekai.sagernet.ktx.runOnDefaultDispatcher
 import io.nekohasekai.sagernet.utils.AmigosSecurity
 
 /**
- * Amigos onboarding: user enters their username, the app fetches
+ * Amigos premium login: user enters their username, the app fetches
  * https://amigos.r4in8ow.online/sub/{username} and imports it as a
- * subscription group with auto-update enabled.
+ * subscription group with auto-update enabled. Free servers remain the
+ * default; this screen is only opened explicitly from the drawer.
  */
 class AmigosLoginActivity : AppCompatActivity() {
 
@@ -43,12 +44,6 @@ class AmigosLoginActivity : AppCompatActivity() {
         }
 
         binding.continueButton.setOnClickListener { submit() }
-        binding.freeButton.setOnClickListener {
-            if (!working) {
-                DataStore.amigosFreeMode = true
-                startActivity(Intent(this, FreeServersActivity::class.java))
-            }
-        }
         binding.usernameInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 submit()
@@ -64,7 +59,6 @@ class AmigosLoginActivity : AppCompatActivity() {
     private fun setWorking(active: Boolean) {
         working = active
         binding.continueButton.isEnabled = !active
-        binding.freeButton.isEnabled = !active
         binding.usernameInput.isEnabled = !active
         binding.usernameLayout.isEnabled = !active
         binding.loginProgress.visibility = if (active) View.VISIBLE else View.GONE
@@ -99,6 +93,7 @@ class AmigosLoginActivity : AppCompatActivity() {
                     throw IllegalStateException("empty subscription")
                 }
                 DataStore.amigosUsername = username
+                DataStore.amigosFreeMode = false
                 onMainDispatcher { goMain() }
             } catch (e: Exception) {
                 Logs.w("Amigos premium subscription update failed: ${e.javaClass.simpleName}")
