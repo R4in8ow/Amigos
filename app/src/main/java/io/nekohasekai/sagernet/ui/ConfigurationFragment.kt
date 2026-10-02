@@ -10,11 +10,13 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.format.Formatter
 import android.text.style.ForegroundColorSpan
+import android.text.InputType
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -50,6 +52,7 @@ import io.nekohasekai.sagernet.database.ProfileManager
 import io.nekohasekai.sagernet.database.ProxyEntity
 import io.nekohasekai.sagernet.database.ProxyGroup
 import io.nekohasekai.sagernet.database.SagerDatabase
+import io.nekohasekai.sagernet.database.SubscriptionBean
 import io.nekohasekai.sagernet.database.preference.OnPreferenceDataStoreChangeListener
 import com.r4in8ow.amigos.databinding.LayoutProfileListBinding
 import com.r4in8ow.amigos.databinding.LayoutProgressListBinding
@@ -344,6 +347,53 @@ class ConfigurationFragment @JvmOverloads constructor(
 
     }
 
+    private fun showAddSubscriptionDialog() {
+        val context = requireContext()
+        val pad = (16 * resources.displayMetrics.density).toInt()
+        val layout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(pad, pad / 2, pad, 0)
+        }
+        val urlInput = EditText(context).apply {
+            hint = getString(R.string.amigos_add_subscription_url_hint)
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
+        }
+        val nameInput = EditText(context).apply {
+            hint = getString(R.string.amigos_add_subscription_name_hint)
+            inputType = InputType.TYPE_CLASS_TEXT
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+            )
+            params.topMargin = pad / 2
+            layoutParams = params
+        }
+        layout.addView(urlInput)
+        layout.addView(nameInput)
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.amigos_add_subscription_title)
+            .setView(layout)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                val url = urlInput.text.toString().trim()
+                if (url.isBlank()) {
+                    snackbar(getString(R.string.amigos_add_subscription_empty_url)).show()
+                    return@setPositiveButton
+                }
+                val group = ProxyGroup(type = GroupType.SUBSCRIPTION)
+                val subscription = SubscriptionBean().applyDefaultValues()
+                subscription.link = url
+                group.subscription = subscription
+                val name = nameInput.text.toString().trim()
+                group.name = name.ifBlank { "Subscription #${System.currentTimeMillis()}" }
+                runOnDefaultDispatcher {
+                    GroupManager.createGroup(group)
+                    GroupUpdater.startUpdate(group, true)
+                }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_scan_qr_code -> {
@@ -374,6 +424,10 @@ class ConfigurationFragment @JvmOverloads constructor(
 
             R.id.action_import_file -> {
                 startFilesForResult(importFile, "*/*")
+            }
+
+            R.id.action_add_subscription -> {
+                showAddSubscriptionDialog()
             }
 
             R.id.action_new_socks -> {

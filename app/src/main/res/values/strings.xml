@@ -31,7 +31,11 @@
     <string name="amigos_speedtest_testing_upload">Testing upload…</string>
     <string name="amigos_speedtest_done">Test complete</string>
     <string name="amigos_speedtest_failed">Test failed. Check your connection and try again.</string>
-    <string name="amigos_speedtest_settings_title">Test settings</string>
+    <string name="amigos_add_subscription">Add subscription</string>
+    <string name="amigos_add_subscription_title">Add subscription</string>
+    <string name="amigos_add_subscription_url_hint">Subscription URL (https://…)</string>
+    <string name="amigos_add_subscription_name_hint">Name (optional)</string>
+    <string name="amigos_add_subscription_empty_url">Enter a subscription URL</string>
     <string name="amigos_speedtest_setting_endpoint">Test server</string>
     <string name="amigos_speedtest_setting_size">Download size</string>
     <string name="amigos_speedtest_setting_timeout">Timeout</string>
