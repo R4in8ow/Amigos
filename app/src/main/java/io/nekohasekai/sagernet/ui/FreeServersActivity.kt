@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.r4in8ow.amigos.R
@@ -65,9 +64,6 @@ class FreeServersActivity : ThemedActivity() {
     private fun setupBanner() {
         if (!AmigosAds.isAdsEnabled()) return
         val adView = binding.adBanner
-        val metrics = resources.displayMetrics
-        val adWidth = (metrics.widthPixels / metrics.density).toInt()
-        adView.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth))
         adView.visibility = View.VISIBLE
         adView.loadAd(AdRequest.Builder().build())
     }
