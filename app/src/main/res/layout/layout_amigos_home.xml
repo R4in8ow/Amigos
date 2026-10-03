@@ -275,39 +275,4 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/connectFloat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="24dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pingPill"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/amigos_home_ping"
-            android:textSize="13sp"
-            app:cornerRadius="18dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/connectButton"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="36dp"
-            app:icon="@drawable/ic_power"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="32dp" />
-
-    </LinearLayout>
-
 </FrameLayout>

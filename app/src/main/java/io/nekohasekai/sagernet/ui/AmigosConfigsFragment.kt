@@ -16,6 +16,7 @@ import com.r4in8ow.amigos.databinding.LayoutAmigosConfigsGroupBinding
 import com.r4in8ow.amigos.databinding.LayoutAmigosConfigsRowBinding
 import com.r4in8ow.amigos.databinding.LayoutAmigosConfigsBinding
 import io.nekohasekai.sagernet.Key
+import io.nekohasekai.sagernet.GroupType
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.ProfileManager
 import io.nekohasekai.sagernet.database.ProxyEntity
@@ -39,6 +40,7 @@ class AmigosConfigsFragment : Fragment() {
 
     private val adapter = ConfigsAdapter(
         onSelect = { profile -> selectServer(profile) },
+        onEdit = { profile -> editServer(profile) },
         onUpdateFree = { updateFree() },
         onUpdatePremium = { updatePremium() },
         onLogin = {
@@ -256,8 +258,23 @@ class AmigosConfigsFragment : Fragment() {
         }
     }
 
+    private fun editServer(profile: ProxyEntity) {
+        runOnDefaultDispatcher {
+            val group = try {
+                SagerDatabase.groupDao.getById(profile.groupId)
+            } catch (_: Exception) {
+                null
+            }
+            val isSubscription = group?.type == GroupType.SUBSCRIPTION
+            onMainDispatcher {
+                startActivity(profile.settingIntent(requireContext(), isSubscription))
+            }
+        }
+    }
+
     class ConfigsAdapter(
         private val onSelect: (ProxyEntity) -> Unit,
+        private val onEdit: (ProxyEntity) -> Unit,
         private val onUpdateFree: () -> Unit,
         private val onUpdatePremium: () -> Unit,
         private val onLogin: () -> Unit,
@@ -318,7 +335,7 @@ class AmigosConfigsFragment : Fragment() {
                 )
                 1 -> ServerHolder(
                     LayoutAmigosConfigsRowBinding.inflate(inflater, parent, false),
-                    onSelect
+                    onSelect, onEdit
                 )
                 else -> EmptyHolder(
                     LayoutAmigosConfigsGroupBinding.inflate(inflater, parent, false)
@@ -366,6 +383,7 @@ class AmigosConfigsFragment : Fragment() {
         class ServerHolder(
             private val binding: LayoutAmigosConfigsRowBinding,
             private val onSelect: (ProxyEntity) -> Unit,
+            private val onEdit: (ProxyEntity) -> Unit,
         ) : RecyclerView.ViewHolder(binding.root) {
             fun bind(row: Row.Server) {
                 val profile = row.profile
@@ -396,6 +414,7 @@ class AmigosConfigsFragment : Fragment() {
                     }
                 }
                 binding.root.setOnClickListener { onSelect(profile) }
+                binding.editButton.setOnClickListener { onEdit(profile) }
                 binding.root.alpha = if (selected) 1.0f else 0.95f
             }
         }

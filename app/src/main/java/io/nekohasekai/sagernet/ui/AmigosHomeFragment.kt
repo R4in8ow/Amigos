@@ -4,11 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.r4in8ow.amigos.R
@@ -18,7 +16,6 @@ import io.nekohasekai.sagernet.aidl.ISagerNetService
 import io.nekohasekai.sagernet.aidl.SpeedDisplayData
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.bg.SagerConnection
-import io.nekohasekai.sagernet.bg.proto.UrlTest
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.ProfileManager
 import io.nekohasekai.sagernet.database.ProxyEntity
@@ -33,7 +30,6 @@ import io.nekohasekai.sagernet.utils.AmigosPing
 import io.nekohasekai.sagernet.utils.AmigosSecurity
 import io.nekohasekai.sagernet.utils.AmigosVpnIp
 import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 class AmigosHomeFragment : Fragment(), SagerConnection.Callback {
 
@@ -69,9 +65,6 @@ class AmigosHomeFragment : Fragment(), SagerConnection.Callback {
             startActivity(Intent(requireContext(), SpeedTestActivity::class.java))
         }
         binding.telegramCard.setOnClickListener { openTelegram() }
-        binding.pingPill.setOnClickListener { quickPing() }
-
-        setupDraggableConnect()
 
         connection.connect(requireContext(), this)
         updateUi(DataStore.serviceState)
@@ -126,13 +119,6 @@ class AmigosHomeFragment : Fragment(), SagerConnection.Callback {
             else -> R.drawable.amigos_dot_gray
         }
         b.stateDot.setBackgroundResource(dot)
-        val btn = b.connectButton
-        val tint = if (connected) {
-            ContextCompat.getColorStateList(requireContext(), R.color.amigos_connected_green)
-        } else {
-            ContextCompat.getColorStateList(requireContext(), R.color.amigos_amber)
-        }
-        btn.backgroundTintList = tint
         if (!connected && !connecting) {
             b.uploadText.text = "0 B/s"
             b.downloadText.text = "0 B/s"
@@ -180,89 +166,6 @@ class AmigosHomeFragment : Fragment(), SagerConnection.Callback {
             vpnCountry = result?.country
             vpnCountryCode = result?.countryCode
             updateVpnIpText()
-        }
-    }
-
-    private fun setupDraggableConnect() {
-        val btn = binding.connectButton
-        btn.setOnClickListener { toggleVpn() }
-        var downX = 0f
-        var downY = 0f
-        var baseTx = 0f
-        var baseTy = 0f
-        var isDrag = false
-        btn.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    downX = event.rawX
-                    downY = event.rawY
-                    baseTx = v.translationX
-                    baseTy = v.translationY
-                    isDrag = false
-                    true
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val dx = event.rawX - downX
-                    val dy = event.rawY - downY
-                    if (abs(dx) > 12 || abs(dy) > 12) isDrag = true
-                    if (isDrag) {
-                        v.translationX = baseTx + dx
-                        v.translationY = baseTy + dy
-                    }
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    if (!isDrag) v.performClick()
-                    isDrag = false
-                    true
-                }
-                MotionEvent.ACTION_CANCEL -> {
-                    isDrag = false
-                    true
-                }
-                else -> false
-            }
-        }
-    }
-
-    private fun toggleVpn() {
-        val activity = activity as? MainActivity ?: return
-        activity.toggleVpn()
-    }
-
-    private fun quickPing() {
-        if (AmigosPing.isRunning()) return
-        runOnDefaultDispatcher {
-            val profile = try {
-                SagerDatabase.proxyDao.getById(DataStore.selectedProxy)
-            } catch (_: Exception) {
-                null
-            }
-            if (profile == null) {
-                onMainDispatcher {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.amigos_home_no_server,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                return@runOnDefaultDispatcher
-            }
-            DataStore.runningTest = true
-            val ms = try {
-                UrlTest().doTest(profile)
-            } catch (e: Exception) {
-                -1
-            } finally {
-                DataStore.runningTest = false
-            }
-            onMainDispatcher {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.amigos_home_ping_result, ms),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
         }
     }
 

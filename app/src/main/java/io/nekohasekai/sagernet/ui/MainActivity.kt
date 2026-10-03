@@ -7,6 +7,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
+import android.view.MotionEvent
+import android.view.View
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,6 +27,7 @@ import io.nekohasekai.sagernet.aidl.SpeedDisplayData
 import io.nekohasekai.sagernet.aidl.TrafficData
 import io.nekohasekai.sagernet.bg.BaseService
 import io.nekohasekai.sagernet.bg.SagerConnection
+import io.nekohasekai.sagernet.bg.proto.UrlTest
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.GroupManager
 import io.nekohasekai.sagernet.database.ProfileManager
@@ -46,8 +50,10 @@ import io.nekohasekai.sagernet.ktx.parseProxies
 import io.nekohasekai.sagernet.ktx.readableMessage
 import io.nekohasekai.sagernet.ktx.runOnDefaultDispatcher
 import io.nekohasekai.sagernet.utils.AmigosAds
+import io.nekohasekai.sagernet.utils.AmigosPing
 import io.nekohasekai.sagernet.utils.AmigosSecurity
 import moe.matsuri.nb4a.utils.Util
+import kotlin.math.abs
 
 class MainActivity : ThemedActivity(),
     SagerConnection.Callback,
@@ -59,9 +65,14 @@ class MainActivity : ThemedActivity(),
         const val TAB_HOME = 0
         const val TAB_CONFIGS = 1
         const val TAB_SETTINGS = 2
+        private const val KEY_FLOAT_TX = "amigos_float_tx"
+        private const val KEY_FLOAT_TY = "amigos_float_ty"
     }
 
     private var currentTab = TAB_HOME
+
+    private var connectFloatTx = 0f
+    private var connectFloatTy = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +92,11 @@ class MainActivity : ThemedActivity(),
 
         if (savedInstanceState == null) {
             showTab(TAB_HOME)
+        } else {
+            connectFloatTx = savedInstanceState.getFloat(KEY_FLOAT_TX, 0f)
+            connectFloatTy = savedInstanceState.getFloat(KEY_FLOAT_TY, 0f)
         }
+        setupConnectFloat()
         onBackPressedDispatcher.addCallback {
             if (supportFragmentManager.backStackEntryCount > 0) {
                 supportFragmentManager.popBackStack()
@@ -166,6 +181,120 @@ class MainActivity : ThemedActivity(),
             SagerNet.reloadService()
         } else {
             connect.launch(null)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putFloat(KEY_FLOAT_TX, connectFloatTx)
+        outState.putFloat(KEY_FLOAT_TY, connectFloatTy)
+    }
+
+    private fun setupConnectFloat() {
+        val floatBox = binding.connectFloat
+        val button = binding.connectButton
+        floatBox.translationX = connectFloatTx
+        floatBox.translationY = connectFloatTy
+        updateConnectButton(DataStore.serviceState)
+
+        button.setOnClickListener { toggleVpn() }
+        binding.pingPill.setOnClickListener { quickPing() }
+
+        val touchSlop =
+            android.view.ViewConfiguration.get(this).scaledTouchSlop
+        var downX = 0f
+        var downY = 0f
+        var baseTx = 0f
+        var baseTy = 0f
+        var dragging = false
+        button.setOnTouchListener { v, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    downX = event.rawX
+                    downY = event.rawY
+                    baseTx = floatBox.translationX
+                    baseTy = floatBox.translationY
+                    dragging = false
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val dx = event.rawX - downX
+                    val dy = event.rawY - downY
+                    if (!dragging && (abs(dx) > touchSlop || abs(dy) > touchSlop)) {
+                        dragging = true
+                    }
+                    if (dragging) {
+                        val parent = floatBox.parent as View
+                        val minTx = -(parent.width - floatBox.width).toFloat()
+                        val minTy = -(parent.height - floatBox.height).toFloat()
+                        connectFloatTx = (baseTx + dx).coerceIn(minTx, 0f)
+                        connectFloatTy = (baseTy + dy).coerceIn(minTy, 0f)
+                        floatBox.translationX = connectFloatTx
+                        floatBox.translationY = connectFloatTy
+                    }
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    if (dragging) {
+                        dragging = false
+                        true
+                    } else {
+                        v.performClick()
+                    }
+                }
+                MotionEvent.ACTION_CANCEL -> {
+                    dragging = false
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun updateConnectButton(state: BaseService.State) {
+        if (!::binding.isInitialized) return
+        val connected = state == BaseService.State.Connected
+        val tint = if (connected) {
+            ContextCompat.getColorStateList(this, R.color.amigos_connected_green)
+        } else {
+            ContextCompat.getColorStateList(this, R.color.amigos_amber)
+        }
+        binding.connectButton.backgroundTintList = tint
+    }
+
+    private fun quickPing() {
+        if (AmigosPing.isRunning()) return
+        runOnDefaultDispatcher {
+            val profile = try {
+                SagerDatabase.proxyDao.getById(DataStore.selectedProxy)
+            } catch (_: Exception) {
+                null
+            }
+            if (profile == null) {
+                onMainDispatcher {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.amigos_home_no_server,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@runOnDefaultDispatcher
+            }
+            DataStore.runningTest = true
+            val ms = try {
+                UrlTest().doTest(profile)
+            } catch (_: Exception) {
+                -1
+            } finally {
+                DataStore.runningTest = false
+            }
+            onMainDispatcher {
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.amigos_home_ping_result, ms),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -347,6 +476,7 @@ class MainActivity : ThemedActivity(),
     override fun stateChanged(state: BaseService.State, profileName: String?, msg: String?) {
         val wasActive = DataStore.serviceState.canStop
         changeState(state, msg, true)
+        updateConnectButton(state)
         if (AmigosAds.isAdsEnabled()) {
             if (state == BaseService.State.Connected) {
                 AmigosAds.preloadInterstitial(this)

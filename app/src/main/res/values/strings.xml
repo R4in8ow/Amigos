@@ -25,6 +25,7 @@
     <string name="amigos_configs_sort_by">SORT BY: Ping</string>
     <string name="amigos_configs_ping_all">Ping All</string>
     <string name="amigos_configs_cancel">Cancel</string>
+    <string name="amigos_configs_edit">Edit server</string>
     <string name="amigos_configs_update">Update</string>
     <string name="amigos_configs_free_servers">Free Servers</string>
     <string name="amigos_configs_premium">Premium</string>

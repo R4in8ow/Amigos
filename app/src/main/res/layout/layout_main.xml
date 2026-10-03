@@ -10,17 +10,57 @@
         android:id="@+id/fragment_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp" />
+        android:layout_marginBottom="64dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="64dp"
         android:layout_gravity="bottom"
         android:background="@color/amigos_white"
         android:elevation="8dp"
+        app:itemIconSize="24dp"
         app:itemIconTint="@color/amigos_bottom_nav_tint"
+        app:itemTextAppearanceActive="@style/AmigosBottomNavText"
+        app:itemTextAppearanceInactive="@style/AmigosBottomNavText"
         app:itemTextColor="@color/amigos_bottom_nav_tint"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/amigos_bottom_nav" />
+
+    <LinearLayout
+        android:id="@+id/connectFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="88dp"
+        android:elevation="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pingPill"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/amigos_home_ping"
+            android:textSize="13sp"
+            app:cornerRadius="18dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/connectButton"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="36dp"
+            app:icon="@drawable/ic_power"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="32dp" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
