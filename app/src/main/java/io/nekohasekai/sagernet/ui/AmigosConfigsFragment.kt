@@ -183,7 +183,73 @@ class AmigosConfigsFragment : Fragment() {
                 loading = false
                 updatePingStatus(null)
                 load()
+                autoSelectFastestFree()
             }
+        }
+    }
+
+    private fun autoSelectFastestFree() {
+        if (AmigosPing.isRunning()) return
+        runOnDefaultDispatcher {
+            val group = try {
+                FreeServerManager.findOrCreateGroup()
+            } catch (_: Exception) {
+                null
+            }
+            val profiles = try {
+                group?.let { SagerDatabase.proxyDao.getByGroup(it.id) } ?: emptyList()
+            } catch (_: Exception) {
+                emptyList()
+            }
+            if (profiles.isEmpty()) return@runOnDefaultDispatcher
+            AmigosPing.testProfiles(
+                profiles,
+                onProfile = { adapter.updateProfile(it) },
+                onProgress = { done, total ->
+                    updatePingStatus(
+                        getString(R.string.amigos_configs_testing, done, total)
+                    )
+                },
+                onDone = {
+                    updatePingStatus(null)
+                    val best = profiles.filter { it.status == 1 }
+                        .minWithOrNull(
+                            compareBy({ it.ping }, { AmigosPing.protocolPriority(it) })
+                        )
+                    val ctx = context
+                    if (best == null) {
+                        ctx?.let {
+                            Toast.makeText(
+                                it,
+                                R.string.amigos_configs_no_free_working,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        return@testProfiles
+                    }
+                    val old = DataStore.selectedProxy
+                    DataStore.selectedProxy = best.id
+                    runOnMainDispatcher {
+                        ProfileManager.postUpdate(old, true)
+                        ProfileManager.postUpdate(best.id, true)
+                    }
+                    ctx?.let {
+                        adapter.refreshSelection()
+                        Toast.makeText(
+                            it,
+                            getString(
+                                R.string.amigos_configs_auto_selected,
+                                best.displayName(),
+                                best.ping
+                            ),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    if (DataStore.amigosSmartConnect) {
+                        (activity as? MainActivity)?.connectToSelected()
+                    }
+                }
+            )
         }
     }
 

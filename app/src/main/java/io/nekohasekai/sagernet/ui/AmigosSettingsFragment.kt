@@ -45,7 +45,20 @@ class AmigosSettingsFragment : Fragment() {
         binding.advancedCard.setOnClickListener {
             (activity as? MainActivity)?.openAdvancedSettings()
         }
+        binding.telegramCard.setOnClickListener { openTelegram() }
         binding.versionText.text = "Amigos ${BuildConfig.VERSION_NAME}"
+
+        binding.fragmentSwitch.isChecked = DataStore.autoFragment
+        binding.fragmentSwitch.setOnCheckedChangeListener { _, checked ->
+            DataStore.autoFragment = checked
+        }
+        binding.bypassLanSwitch.isChecked = DataStore.bypassLan
+        binding.bypassLanSwitch.setOnCheckedChangeListener { _, checked ->
+            DataStore.bypassLan = checked
+        }
+        binding.perAppCard.setOnClickListener {
+            startActivity(Intent(requireContext(), AppListActivity::class.java))
+        }
 
         renderAccount()
     }

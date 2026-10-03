@@ -42,6 +42,16 @@
     <string name="amigos_settings_renew">Renew via Telegram</string>
     <string name="amigos_settings_advanced">Advanced Settings</string>
     <string name="amigos_settings_about">About</string>
+    <string name="amigos_settings_connection">Connection</string>
+    <string name="amigos_settings_auto_fragment">Auto Fragment</string>
+    <string name="amigos_settings_auto_fragment_desc">TLS fragment to bypass DPI censorship</string>
+    <string name="amigos_settings_per_app">Per-App Proxy</string>
+    <string name="amigos_settings_per_app_desc">Choose which apps use the VPN</string>
+    <string name="amigos_settings_bypass_lan">Bypass LAN</string>
+    <string name="amigos_settings_bypass_lan_desc">Skip proxy for local network addresses</string>
+    <string name="amigos_settings_telegram">Telegram @R4in8ow</string>
+    <string name="amigos_configs_auto_selected">Selected %1$s (%2$d ms)</string>
+    <string name="amigos_configs_no_free_working">No working free server found</string>
     <string name="amigos_login_subtitle">Sign in to continue</string>
     <string name="amigos_login_username_hint">Username</string>
     <string name="amigos_login_continue">Continue</string>
