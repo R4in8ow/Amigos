@@ -79,6 +79,7 @@
     <string name="amigos_dashboard_state">State: %1$s</string>
     <string name="amigos_dashboard_server">Server: %1$s</string>
     <string name="amigos_dashboard_ip">VPN IP: %1$s</string>
+    <string name="amigos_dashboard_country">%1$s %2$s</string>
     <string name="amigos_dashboard_speed">▲ %1$s/s   ▼ %2$s/s</string>
     <string name="amigos_dashboard_sys">CPU %1$s%% · RAM %2$s%%</string>
     <string name="amigos_disconnect">Disconnect</string>

@@ -90,6 +90,8 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
     private var lastTxRate = 0L
     private var lastRxRate = 0L
     private var vpnIp: String? = null
+    private var vpnCountry: String? = null
+    private var vpnCountryCode: String? = null
 
     override fun onServiceConnected(service: ISagerNetService) = Unit
 
@@ -583,6 +585,15 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
         if (!show) return
         binding.connStateText.text = getString(R.string.amigos_dashboard_state, state.name)
         binding.connIpText.text = getString(R.string.amigos_dashboard_ip, vpnIp ?: "…")
+        binding.connCountryText.text = when {
+            vpnCountry != null -> getString(
+                R.string.amigos_dashboard_country,
+                countryFlag(vpnCountryCode),
+                vpnCountry ?: ""
+            ).trim()
+            vpnIp == null -> "…"
+            else -> "—"
+        }
         binding.connSpeedText.text = getString(
             R.string.amigos_dashboard_speed,
             formatBytes(lastTxRate), formatBytes(lastRxRate)
@@ -603,26 +614,59 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
         }
     }
 
+    private data class VpnLocation(val ip: String, val country: String?, val countryCode: String?)
+
     private fun fetchVpnIp() {
         vpnIp = null
+        vpnCountry = null
+        vpnCountryCode = null
+        updateDashboard()
         runOnDefaultDispatcher {
-            try {
-                val client = Libcore.newHttpClient().apply { modernTLS() }
-                val response = client.newRequest().apply {
-                    setURL("https://api.ipify.org?format=json")
-                }.execute()
-                val ip = JSONObject(Util.getStringBox(response.contentString)).optString("ip", "")
-                onMainDispatcher {
-                    vpnIp = ip.ifBlank { "—" }
-                    updateDashboard()
-                }
-            } catch (_: Exception) {
-                onMainDispatcher {
-                    vpnIp = "—"
-                    updateDashboard()
-                }
+            // Primary: one call returns IP + country + country code.
+            // Fallback: ipify (IP only) in case the primary is unreachable
+            // from the server's egress network.
+            val result = tryVpnLocation("https://ipapi.co/json/")
+                ?: tryVpnLocation("https://api.ipify.org?format=json")
+            if (result == null) {
+                Logs.w("Amigos VPN IP check failed on all endpoints")
+            }
+            onMainDispatcher {
+                vpnIp = result?.ip ?: "—"
+                vpnCountry = result?.country
+                vpnCountryCode = result?.countryCode
+                updateDashboard()
             }
         }
+    }
+
+    private fun tryVpnLocation(url: String): VpnLocation? {
+        return try {
+            val client = Libcore.newHttpClient().apply { modernTLS() }
+            val response = client.newRequest().apply { setURL(url) }.execute()
+            val json = JSONObject(Util.getStringBox(response.contentString))
+            val ip = when {
+                json.has("ip") -> json.optString("ip", "")
+                json.has("query") -> json.optString("query", "")
+                else -> ""
+            }.trim()
+            if (ip.isEmpty()) return null
+            val country = json.optString("country_name", "").ifBlank {
+                json.optString("country", "")
+            }.ifBlank { null }
+            val countryCode = json.optString("country_code", "").ifBlank {
+                json.optString("countryCode", "")
+            }.ifBlank { null }
+            VpnLocation(ip, country, countryCode)
+        } catch (e: Exception) {
+            Logs.w("Amigos VPN IP check failed for $url: ${e.readableMessage}")
+            null
+        }
+    }
+
+    private fun countryFlag(countryCode: String?): String {
+        val cc = countryCode?.uppercase(Locale.US) ?: return ""
+        if (cc.length != 2 || !cc.all { it in 'A'..'Z' }) return ""
+        return cc.map { String(Character.toChars(0x1F1E6 + (it - 'A'))) }.joinToString("")
     }
 
     private fun readCpuStat(): Pair<Long, Long>? {
