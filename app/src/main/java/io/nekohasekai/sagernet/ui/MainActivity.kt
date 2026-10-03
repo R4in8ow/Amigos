@@ -324,7 +324,12 @@ class MainActivity : ThemedActivity(),
         }
         if (item.itemId == R.id.nav_premium_login) {
             binding.drawerLayout.closeDrawers()
-            startActivity(Intent(this, AmigosLoginActivity::class.java))
+            val target = if (DataStore.amigosUsername.isNotBlank()) {
+                AmigosPremiumActivity::class.java
+            } else {
+                AmigosLoginActivity::class.java
+            }
+            startActivity(Intent(this, target))
             return true
         }
         if (item.itemId == R.id.nav_speedtest) {

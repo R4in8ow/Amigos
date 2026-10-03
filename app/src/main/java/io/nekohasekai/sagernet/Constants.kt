@@ -11,6 +11,7 @@ object Key {
 
     const val AMIGOS_USERNAME = "amigosUsername"
     const val AMIGOS_SUB_BASE = "https://amigos.r4in8ow.online/sub/"
+    const val AMIGOS_API_BASE = "https://amigos.r4in8ow.online/api/"
     const val AMIGOS_ONBOARDED = "amigosOnboarded"
     const val AMIGOS_FREE_MODE = "amigosFreeMode"
     const val FREE_SERVERS_UPDATED_AT = "freeServersUpdatedAt"
