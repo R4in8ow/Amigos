@@ -623,9 +623,10 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
         updateDashboard()
         runOnDefaultDispatcher {
             // Primary: one call returns IP + country + country code.
-            // Fallback: ipify (IP only) in case the primary is unreachable
-            // from the server's egress network.
+            // Middle: ip-api.com (also IP + country) in case the primary is
+            // rate-limited or blocked. Last resort: ipify (IP only).
             val result = tryVpnLocation("https://ipapi.co/json/")
+                ?: tryVpnLocation("http://ip-api.com/json/?fields=status,country,countryCode,query")
                 ?: tryVpnLocation("https://api.ipify.org?format=json")
             if (result == null) {
                 Logs.w("Amigos VPN IP check failed on all endpoints")
@@ -644,6 +645,9 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
             val client = Libcore.newHttpClient().apply { modernTLS() }
             val response = client.newRequest().apply { setURL(url) }.execute()
             val json = JSONObject(Util.getStringBox(response.contentString))
+            // ip-api.com signals failure explicitly; don't treat its
+            // "query" echo as a usable result.
+            if (json.optString("status", "success") == "fail") return null
             val ip = when {
                 json.has("ip") -> json.optString("ip", "")
                 json.has("query") -> json.optString("query", "")

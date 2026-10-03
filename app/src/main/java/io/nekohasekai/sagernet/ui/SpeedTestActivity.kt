@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
 import android.text.format.Formatter
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -70,6 +71,14 @@ class SpeedTestActivity : ThemedActivity(), SagerConnection.Callback {
         } catch (_: Exception) {
         }
         super.onDestroy()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     // --- SagerConnection.Callback ---
