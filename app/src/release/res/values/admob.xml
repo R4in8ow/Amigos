@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Rainbow's real AdMob banner unit — release builds only. -->
+    <string name="admob_banner_id">ca-app-pub-3961408285604914/4138218760</string>
+</resources>

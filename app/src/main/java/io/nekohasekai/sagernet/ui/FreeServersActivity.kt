@@ -68,7 +68,6 @@ class FreeServersActivity : ThemedActivity() {
         val metrics = resources.displayMetrics
         val adWidth = (metrics.widthPixels / metrics.density).toInt()
         adView.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth))
-        adView.adUnitId = AmigosAds.bannerAdUnitId
         adView.visibility = View.VISIBLE
         adView.loadAd(AdRequest.Builder().build())
     }

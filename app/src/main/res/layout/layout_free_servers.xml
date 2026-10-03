@@ -87,7 +87,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:visibility="gone"
-            ads:adSize="BANNER" />
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/admob_banner_id" />
 
     </LinearLayout>
 
