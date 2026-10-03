@@ -603,9 +603,11 @@ fun buildSingBoxOutboundTLS(bean: StandardV2RayBean): OutboundTLSOptions? {
         enabled = true
         insecure = bean.allowInsecure || DataStore.globalAllowInsecure
         // Amigos: TLS fragment for anti-DPI (Myanmar/CN networks).
-        // Reality runs over TLS, so this covers VLESS+Reality outbounds too.
+        // Never fragment Reality: it validates the ClientHello itself and
+        // fragmentation breaks the handshake. Never fragment XHTTP either.
         // Precedence: per-profile setting > global Auto Fragment > default ON.
-        if (bean.resolveFragment()) {
+        val skipFragment = bean.realityPubKey.isNotBlank() || bean.type == "xhttp"
+        if (!skipFragment && bean.resolveFragment()) {
             fragment = true
             // sing-box default is 500ms; 300ms is a sensible, slightly more aggressive value
             fragment_fallback_delay = "300ms"
