@@ -22,6 +22,7 @@ object Key {
     const val AMIGOS_SPEEDTEST_ENDPOINT = "amigosSpeedtestEndpoint"
     const val AMIGOS_SPEEDTEST_SIZE_MB = "amigosSpeedtestSizeMb"
     const val AMIGOS_SPEEDTEST_TIMEOUT_S = "amigosSpeedtestTimeoutS"
+    const val AMIGOS_SMART_CONNECT = "amigosSmartConnect"
 
     const val APP_EXPERT = "isExpert"
     const val APP_THEME = "appTheme"

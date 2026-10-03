@@ -8,4 +8,5 @@
     <color name="amigos_amber_light">#F7B955</color>
     <color name="amigos_amber_dark">#C67A10</color>
     <color name="amigos_white">#FFFFFF</color>
+    <color name="amigos_connected_green">#43A047</color>
 </resources>

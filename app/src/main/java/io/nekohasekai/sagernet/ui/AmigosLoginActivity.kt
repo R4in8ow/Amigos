@@ -135,7 +135,7 @@ class AmigosLoginActivity : AppCompatActivity() {
     }
 
     private fun goMain() {
-        startActivity(Intent(this, AmigosPremiumActivity::class.java).apply {
+        startActivity(Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         })
         finish()

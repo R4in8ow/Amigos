@@ -91,6 +91,7 @@ object DataStore : OnPreferenceDataStoreChangeListener {
     var freeServersUpdatedAt by configurationStore.string(Key.FREE_SERVERS_UPDATED_AT) { "" }
     var freeServersDisclaimerShown by configurationStore.boolean(Key.FREE_SERVERS_DISCLAIMER_SHOWN) { false }
     var amigosLastInterstitial by configurationStore.long(Key.AMIGOS_LAST_INTERSTITIAL) { 0L }
+    var amigosSmartConnect by configurationStore.boolean(Key.AMIGOS_SMART_CONNECT) { false }
     var enableClashAPI by configurationStore.boolean(Key.ENABLE_CLASH_API)
     var showBottomBar by configurationStore.boolean(Key.SHOW_BOTTOM_BAR)
 
