@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.r4in8ow.amigos.R
 
@@ -20,7 +19,7 @@ open class ToolbarFragment : Fragment {
         toolbar = view.findViewById(R.id.toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_navigation_menu)
         toolbar.setNavigationOnClickListener {
-            (activity as MainActivity).binding.drawerLayout.openDrawer(GravityCompat.START)
+            (activity as MainActivity).onBackPressedDispatcher.onBackPressed()
         }
     }
 
