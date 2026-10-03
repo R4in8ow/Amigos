@@ -500,8 +500,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AmigosBottomNavText" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">12sp</item>
-    </style>
-
 </resources>

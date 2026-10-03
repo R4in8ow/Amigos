@@ -12,20 +12,99 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <LinearLayout
+        android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_gravity="bottom"
         android:background="@color/amigos_white"
         android:elevation="8dp"
-        app:itemIconSize="24dp"
-        app:itemIconTint="@color/amigos_bottom_nav_tint"
-        app:itemTextAppearanceActive="@style/AmigosBottomNavText"
-        app:itemTextAppearanceInactive="@style/AmigosBottomNavText"
-        app:itemTextColor="@color/amigos_bottom_nav_tint"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/amigos_bottom_nav" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/tab_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/amigos_tab_home"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp">
+
+            <ImageView
+                android:id="@+id/tab_home_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_home_24" />
+
+            <TextView
+                android:id="@+id/tab_home_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:text="@string/amigos_tab_home"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_configs"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/amigos_tab_configs"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp">
+
+            <ImageView
+                android:id="@+id/tab_configs_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_view_list_24" />
+
+            <TextView
+                android:id="@+id/tab_configs_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:text="@string/amigos_tab_configs"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/amigos_tab_settings"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="6dp">
+
+            <ImageView
+                android:id="@+id/tab_settings_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_action_settings" />
+
+            <TextView
+                android:id="@+id/tab_settings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:text="@string/amigos_tab_settings"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/connectFloat"

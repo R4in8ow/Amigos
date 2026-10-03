@@ -3,12 +3,15 @@ package io.nekohasekai.sagernet.ui
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
@@ -81,20 +84,16 @@ class MainActivity : ThemedActivity(),
         binding = LayoutMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.tab_home -> showTab(TAB_HOME)
-                R.id.tab_configs -> showTab(TAB_CONFIGS)
-                R.id.tab_settings -> showTab(TAB_SETTINGS)
-                else -> false
-            }
-        }
+        binding.tabHome.setOnClickListener { showTab(TAB_HOME) }
+        binding.tabConfigs.setOnClickListener { showTab(TAB_CONFIGS) }
+        binding.tabSettings.setOnClickListener { showTab(TAB_SETTINGS) }
 
         if (savedInstanceState == null) {
             showTab(TAB_HOME)
         } else {
             connectFloatTx = savedInstanceState.getFloat(KEY_FLOAT_TX, 0f)
             connectFloatTy = savedInstanceState.getFloat(KEY_FLOAT_TY, 0f)
+            updateTabSelection(currentTab)
         }
         setupConnectFloat()
         onBackPressedDispatcher.addCallback {
@@ -155,10 +154,31 @@ class MainActivity : ThemedActivity(),
             else -> AmigosHomeFragment()
         }
         currentTab = tab
+        updateTabSelection(tab)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_holder, fragment)
             .commitAllowingStateLoss()
         return true
+    }
+
+    private fun updateTabSelection(tab: Int) {
+        val active = ContextCompat.getColor(this, R.color.amigos_teal)
+        val inactive = ContextCompat.getColor(this, R.color.amigos_tab_inactive)
+        setTabState(binding.tabHomeIcon, binding.tabHomeLabel, tab == TAB_HOME, active, inactive)
+        setTabState(
+            binding.tabConfigsIcon, binding.tabConfigsLabel, tab == TAB_CONFIGS, active, inactive
+        )
+        setTabState(
+            binding.tabSettingsIcon, binding.tabSettingsLabel, tab == TAB_SETTINGS, active, inactive
+        )
+    }
+
+    private fun setTabState(
+        icon: ImageView, label: TextView, selected: Boolean, active: Int, inactive: Int,
+    ) {
+        val color = if (selected) active else inactive
+        icon.imageTintList = ColorStateList.valueOf(color)
+        label.setTextColor(color)
     }
 
     fun openAdvancedSettings() {
