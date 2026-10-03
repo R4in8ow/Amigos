@@ -42,6 +42,8 @@ import io.nekohasekai.sagernet.utils.AmigosSecurity
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import libcore.Libcore
 import moe.matsuri.nb4a.utils.Util
@@ -315,7 +317,7 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
     private var testedCount = 0
     private var testedTotal = 0
 
-    private fun premiumGroup(): ProxyGroup? =
+    private suspend fun premiumGroup(): ProxyGroup? =
         SagerDatabase.groupDao.subscriptions()
             .firstOrNull { it.subscription?.link?.startsWith(Key.AMIGOS_SUB_BASE) == true }
 
@@ -358,20 +360,26 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
 
     private fun pingAll(onDone: (() -> Unit)? = null) {
         if (testing || DataStore.runningTest) return
-        val group = try {
-            premiumGroup()
-        } catch (_: Exception) {
-            null
-        }
-        if (group == null) {
-            showServersError(getString(R.string.amigos_servers_no_group))
-            return
-        }
         testing = true
         DataStore.runningTest = true
         testedCount = 0
+        testedTotal = 0
         updateServersUi()
         runOnDefaultDispatcher {
+            val group = try {
+                premiumGroup()
+            } catch (_: Exception) {
+                null
+            }
+            if (group == null) {
+                DataStore.runningTest = false
+                testing = false
+                onMainDispatcher {
+                    updateServersUi()
+                    showServersError(getString(R.string.amigos_servers_no_group))
+                }
+                return@runOnDefaultDispatcher
+            }
             val profiles = try {
                 SagerDatabase.proxyDao.getByGroup(group.id)
             } catch (_: Exception) {
@@ -617,15 +625,17 @@ class AmigosPremiumActivity : AppCompatActivity(), SagerConnection.Callback {
         }
     }
 
-    private fun readCpuStat(): Pair<Long, Long>? = try {
-        val line = File("/proc/stat").bufferedReader().use { it.readLine() } ?: return null
-        val p = line.trim().split(Regex("\\s+"))
-        if (p.size < 8 || p[0] != "cpu") return null
-        val nums = p.drop(1).map { it.toLong() }
-        val idle = nums[3] + nums[4]
-        nums.sum() to idle
-    } catch (_: Exception) {
-        null
+    private fun readCpuStat(): Pair<Long, Long>? {
+        return try {
+            val line = File("/proc/stat").bufferedReader().use { it.readLine() } ?: return null
+            val p = line.trim().split(Regex("\\s+"))
+            if (p.size < 8 || p[0] != "cpu") return null
+            val nums = p.drop(1).map { it.toLong() }
+            val idle = nums[3] + nums[4]
+            nums.sum() to idle
+        } catch (_: Exception) {
+            null
+        }
     }
 
     private fun measureCpuPct(): Int {
