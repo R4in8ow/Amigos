@@ -712,6 +712,29 @@ fun buildConfig(
                     ip_is_private = true
                 })
             }
+            // Amigos: Direct route for YouTube (bandwidth saving - bypass VPN)
+            route.rules.add(Rule_DefaultOptions().apply {
+                outbound = TAG_BYPASS
+                domain_suffix = listOf(
+                    "youtube.com",
+                    "googlevideo.com",
+                    "ytimg.com",
+                    "youtu.be",
+                    "youtube-nocookie.com",
+                    "yt3.ggpht.com"
+                )
+            })
+            // Amigos: Direct route for Telegram (bandwidth saving - bypass VPN)
+            route.rules.add(Rule_DefaultOptions().apply {
+                outbound = TAG_BYPASS
+                domain_suffix = listOf(
+                    "telegram.org",
+                    "t.me",
+                    "telegram.me",
+                    "telegram.dog",
+                    "tdesktop.com"
+                )
+            })
             // block mcast
             route.rules.add(Rule_DefaultOptions().apply {
                 ip_cidr = listOf("224.0.0.0/3", "ff00::/8")
