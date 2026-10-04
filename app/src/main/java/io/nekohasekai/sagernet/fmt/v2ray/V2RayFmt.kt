@@ -606,7 +606,7 @@ fun buildSingBoxOutboundTLS(bean: StandardV2RayBean): OutboundTLSOptions? {
         // Never fragment Reality: it validates the ClientHello itself and
         // fragmentation breaks the handshake. Never fragment XHTTP either.
         // Precedence: per-profile setting > global Auto Fragment > default ON.
-        val skipFragment = bean.realityPubKey.isNotBlank() || bean.type == "xhttp"
+        val skipFragment = bean.realityPubKey.isNotBlank() || bean.type in listOf("xhttp", "ws", "grpc")
         if (!skipFragment && bean.resolveFragment()) {
             fragment = true
             // sing-box default is 500ms; 300ms is a sensible, slightly more aggressive value
