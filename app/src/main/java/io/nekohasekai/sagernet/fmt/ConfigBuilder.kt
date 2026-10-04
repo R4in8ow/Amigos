@@ -735,6 +735,47 @@ fun buildConfig(
                     "tdesktop.com"
                 )
             })
+            // Amigos: Direct route for Downloads - Google Drive
+            route.rules.add(Rule_DefaultOptions().apply {
+                outbound = TAG_BYPASS
+                domain_suffix = listOf(
+                    "drive.google.com",
+                    "docs.google.com",
+                    "googleusercontent.com"
+                )
+            })
+            // Amigos: Direct route for Downloads - Mediafire
+            route.rules.add(Rule_DefaultOptions().apply {
+                outbound = TAG_BYPASS
+                domain_suffix = listOf(
+                    "mediafire.com"
+                )
+            })
+            // Amigos: Direct route for OS Updates
+            route.rules.add(Rule_DefaultOptions().apply {
+                outbound = TAG_BYPASS
+                domain_suffix = listOf(
+                    "xiaomi.com",
+                    "mi.com",
+                    "miui.com",
+                    "vivo.com",
+                    "oppo.com",
+                    "coloros.com",
+                    "samsung.com",
+                    "samsungcloud.com",
+                    "huawei.com",
+                    "hicloud.com",
+                    "android.com"
+                )
+            })
+            // Amigos: Direct route for App Updates - Play Store
+            route.rules.add(Rule_DefaultOptions().apply {
+                outbound = TAG_BYPASS
+                domain_suffix = listOf(
+                    "play.google.com",
+                    "android.clients.google.com"
+                )
+            })
             // block mcast
             route.rules.add(Rule_DefaultOptions().apply {
                 ip_cidr = listOf("224.0.0.0/3", "ff00::/8")
